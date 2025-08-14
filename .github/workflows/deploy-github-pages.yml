@@ -30,8 +30,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'apps/frontend/package-lock.json'
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -64,7 +62,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd apps/frontend
-          npm ci --no-audit
+          npm install --no-audit
 
       - name: Build frontend
         run: |
