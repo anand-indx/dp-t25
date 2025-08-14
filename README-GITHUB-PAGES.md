@@ -12,7 +12,7 @@ A comprehensive, interactive learning platform for digital pathology combining m
 
 - 🎯 **Progressive Learning Path**: 8 structured courses from beginner to expert level
 - 🔬 **Real Pathology Data**: Work with CAMELYON16, GlaS Challenge, and other medical datasets  
-- 🚀 **Multiple Execution Options**: Static preview, Google Colab, Binder, and JupyterLite
+- 🚀 **Multiple Execution Options**: Static preview, Google Colab, and Binder
 - 📊 **Interactive Dashboard**: Track progress and unlock courses based on prerequisites
 - 🎓 **Expert-Designed Curriculum**: From basic image processing to foundation models
 - 🌐 **GitHub Pages Hosted**: Accessible anywhere, no installation required
@@ -36,11 +36,6 @@ Visit the live site for course catalog and launch options:
 - Free cloud Jupyter environment
 - Takes 1-2 minutes to launch
 - Fully interactive with persistent session
-
-#### JupyterLite (Browser-Only)
-- Run Python directly in your browser
-- No server required, instant launch
-- Access via: https://anand-indx.github.io/dp-t25/lite/
 
 ### 3. 💻 Local Development
 ```bash
@@ -92,7 +87,6 @@ docker compose up -d
 
 ### Notebook Deployment
 - **Static HTML**: Auto-generated for preview
-- **JupyterLite**: Browser-based execution
 - **Cloud Launch**: One-click Colab/Binder buttons
 - **Local Jupyter**: Full development environment
 
@@ -137,7 +131,7 @@ jupyter lab
 1. Create notebook in appropriate `/notebooks` directory
 2. Add metadata and launch badges to README
 3. Update course array in `apps/frontend/src/App.tsx`
-4. Test all execution methods (Colab, Binder, JupyterLite)
+4. Test all execution methods (Colab, Binder)
 
 ### Development Workflow
 - **`main` branch**: Stable local Docker setup
