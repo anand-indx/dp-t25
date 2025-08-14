@@ -42,11 +42,11 @@ const tutorials: Tutorial[] = [
     level: 'Beginner',
     description: 'Master the basics of digital pathology image manipulation, visualization, and preprocessing techniques.',
     tasks: [
-      { name: 'Load and visualize histopathology images', notebookUrl: '01_load_and_visualize.ipynb', estimatedTime: '30 min' },
-      { name: 'Perform image resizing and grayscale conversion', notebookUrl: '02_resizing_and_grayscale.ipynb', estimatedTime: '25 min' },
-      { name: 'Apply basic augmentation techniques', notebookUrl: '03_basic_augmentation.ipynb', estimatedTime: '35 min' },
-      { name: 'Implement color normalization', notebookUrl: '04_color_normalization.ipynb', estimatedTime: '40 min' },
-      { name: '🎯 Run Autograding Tests (Check Your Progress)', notebookUrl: 'test_autograding.ipynb', estimatedTime: '20 min' }
+      { name: 'Load and visualize histopathology images', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/01_load_and_visualize.ipynb', estimatedTime: '30 min' },
+      { name: 'Perform image resizing and grayscale conversion', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/02_resizing_and_grayscale.ipynb', estimatedTime: '25 min' },
+      { name: 'Apply basic augmentation techniques', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/03_basic_augmentation.ipynb', estimatedTime: '35 min' },
+      { name: 'Implement color normalization', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/04_color_normalization.ipynb', estimatedTime: '40 min' },
+      { name: '🎯 Run Autograding Tests (Check Your Progress)', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/test_autograding.ipynb', estimatedTime: '20 min' }
     ],
     datasets: ['CAMELYON16', 'GlaS Challenge', 'Kaggle Samples'],
     autoCheck: 'assert img_array.shape == (256, 256, 3)',
@@ -59,11 +59,11 @@ const tutorials: Tutorial[] = [
     level: 'Beginner',
     description: 'Learn essential data analysis and visualization techniques including pandas, matplotlib, heatmaps, and UMAP.',
     tasks: [
-      { name: 'Pandas DataFrames for pathology data', notebookUrl: 'viz_01_pandas_pathology.ipynb', estimatedTime: '40 min' },
-      { name: 'Statistical analysis and plotting', notebookUrl: 'viz_02_statistical_plots.ipynb', estimatedTime: '45 min' },
-      { name: 'Heatmaps and correlation analysis', notebookUrl: 'viz_03_heatmaps_correlation.ipynb', estimatedTime: '35 min' },
-      { name: 'UMAP and dimensionality reduction', notebookUrl: 'viz_04_umap_dimensionality.ipynb', estimatedTime: '50 min' },
-      { name: '🎯 Visualization Skills Assessment', notebookUrl: 'visualization-tutorials/notebooks/test_visualization.ipynb', estimatedTime: '30 min' }
+      { name: 'Pandas DataFrames for pathology data', notebookUrl: 'notebooks/visualization-tutorials/notebooks/01_pandas_pathology.ipynb', estimatedTime: '40 min' },
+      { name: 'Statistical analysis and plotting', notebookUrl: 'notebooks/visualization-tutorials/notebooks/02_statistical_plots.ipynb', estimatedTime: '45 min' },
+      { name: 'Heatmaps and correlation analysis', notebookUrl: 'notebooks/visualization-tutorials/notebooks/03_heatmaps_correlation.ipynb', estimatedTime: '35 min' },
+      { name: 'UMAP and dimensionality reduction', notebookUrl: 'notebooks/visualization-tutorials/notebooks/04_umap_dimensionality.ipynb', estimatedTime: '50 min' },
+      { name: '🎯 Visualization Skills Assessment', notebookUrl: 'notebooks/visualization-tutorials/notebooks/test_visualization.ipynb', estimatedTime: '30 min' }
     ],
     datasets: ['TCGA Clinical Data', 'PathML Features', 'Spatial Coordinates'],
     autoCheck: 'assert umap_embedding.shape[1] == 2',
@@ -76,11 +76,11 @@ const tutorials: Tutorial[] = [
     level: 'Intermediate',
     description: 'Build traditional ML classifiers for tissue classification using feature extraction and classical algorithms.',
     tasks: [
-      { name: 'Extract color histograms and texture features', notebookUrl: 'ml-tutorials/notebooks/01_feature_extraction.ipynb', estimatedTime: '60 min' },
-      { name: 'Train Random Forest and SVM classifiers', notebookUrl: 'ml-tutorials/notebooks/02_classical_ml.ipynb', estimatedTime: '50 min' },
-      { name: 'Evaluate model performance metrics', notebookUrl: 'ml-tutorials/notebooks/03_model_evaluation.ipynb', estimatedTime: '45 min' },
-      { name: 'Implement cross-validation', notebookUrl: 'ml-tutorials/notebooks/04_cross_validation.ipynb', estimatedTime: '40 min' },
-      { name: '🎯 ML Classification Challenge', notebookUrl: 'ml-tutorials/notebooks/test_ml_skills.ipynb', estimatedTime: '45 min' }
+      { name: 'Extract color histograms and texture features', notebookUrl: 'notebooks/ml-tutorials/notebooks/01_feature_extraction.ipynb', estimatedTime: '60 min' },
+      { name: 'Train Random Forest and SVM classifiers', notebookUrl: 'notebooks/ml-tutorials/notebooks/02_classical_ml.ipynb', estimatedTime: '50 min' },
+      { name: 'Evaluate model performance metrics', notebookUrl: 'notebooks/ml-tutorials/notebooks/03_model_evaluation.ipynb', estimatedTime: '45 min' },
+      { name: 'Implement cross-validation', notebookUrl: 'notebooks/ml-tutorials/notebooks/04_cross_validation.ipynb', estimatedTime: '40 min' },
+      { name: '🎯 ML Classification Challenge', notebookUrl: 'notebooks/ml-tutorials/notebooks/test_ml_skills.ipynb', estimatedTime: '45 min' }
     ],
     datasets: ['PatchCamelyon (PCam)', 'Histopathologic Cancer Detection'],
     autoCheck: 'assert accuracy > 0.80',
@@ -863,7 +863,7 @@ function App() {
                 <Microscope className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">Digital Pathology Tutorials</h1>
+                <h1 className="text-xl font-bold text-slate-900">AI in Digital Pathology: Tutorials</h1>
                 <p className="text-sm text-slate-600">From Image Processing to Deep Learning</p>
               </div>
             </div>
@@ -882,11 +882,26 @@ function App() {
         {/* Hero Section */}
         <section className="text-center mb-16">
           <h2 className="text-4xl font-bold text-slate-900 mb-6">
-            Master Digital Pathology with Interactive Notebooks
+            Master AI in Digital Pathology with Interactive Notebooks
           </h2>
-          <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 mb-4 max-w-3xl mx-auto">
             Learn image processing, machine learning, and deep learning techniques specifically designed for digital pathology. Each tutorial includes hands-on exercises and real pathology datasets.
           </p>
+          
+          {/* Disclaimer */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8 max-w-4xl mx-auto">
+            <div className="flex items-start space-x-3">
+              <div className="text-amber-600 mt-0.5">⚠️</div>
+              <div className="text-left">
+                <p className="text-sm text-amber-800 font-medium mb-1">AI-Generated Educational Content</p>
+                <p className="text-sm text-amber-700">
+                  These tutorials are generated by AI to make learning AI in digital pathology smooth and faster. 
+                  While designed to be educational and comprehensive, please verify concepts with authoritative sources 
+                  for critical applications. Our goal is to accelerate your learning journey in computational pathology.
+                </p>
+              </div>
+            </div>
+          </div>
           
           {/* Action Buttons */}
           <div className="flex justify-center space-x-4 mb-8">
