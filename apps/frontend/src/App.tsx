@@ -734,25 +734,53 @@ function App() {
                                     Completed
                                   </span>
                                 )}
-                                <a 
-                                  href={IS_GITHUB_PAGES 
-                                    ? `https://github.com/anand-indx/dp-t25/blob/main/${task.notebookUrl}`
-                                    : `${JUPYTER_BASE_URL}/lab/tree/${task.notebookUrl}`
-                                  }
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center space-x-1 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition-colors text-sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (!taskCompleted) {
-                                      setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
-                                    }
-                                  }}
-                                >
-                                  <Play className="w-3 h-3" />
-                                  <span>{IS_GITHUB_PAGES ? 'View' : 'Start'}</span>
-                                  <ExternalLink className="w-3 h-3" />
-                                </a>
+                                
+                                {IS_GITHUB_PAGES ? (
+                                  <div className="flex items-center space-x-2">
+                                    <a 
+                                      href={`https://github.com/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center space-x-1 bg-slate-600 text-white px-3 py-1 rounded-md hover:bg-slate-700 transition-colors text-sm"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      <Github className="w-3 h-3" />
+                                      <span>View</span>
+                                    </a>
+                                    <a 
+                                      href={`https://colab.research.google.com/github/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center space-x-1 bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 transition-colors text-sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (!taskCompleted) {
+                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                        }
+                                      }}
+                                    >
+                                      <ExternalLink className="w-3 h-3" />
+                                      <span>Colab</span>
+                                    </a>
+                                  </div>
+                                ) : (
+                                  <a 
+                                    href={`${JUPYTER_BASE_URL}/lab/tree/${task.notebookUrl}`}
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center space-x-1 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition-colors text-sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (!taskCompleted) {
+                                        setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                      }
+                                    }}
+                                  >
+                                    <Play className="w-3 h-3" />
+                                    <span>Start</span>
+                                    <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                )}
                               </div>
                             </div>
                           );

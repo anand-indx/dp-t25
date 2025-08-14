@@ -33,6 +33,28 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'apps/frontend/package-lock.json'
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install Jupyter and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter nbconvert
+          
+      - name: Convert notebooks to HTML
+        run: |
+          # Convert all notebooks to HTML for static hosting
+          find notebooks -name "*.ipynb" -not -path "*/.*" | while read notebook; do
+            echo "Converting $notebook"
+            jupyter nbconvert --to html "$notebook" --output-dir "$(dirname "$notebook")/html/"
+          done
+          
+          # Create index files for each tutorial directory
+          mkdir -p notebooks/image-processing-tutorials/html
+          mkdir -p notebooks/visualization-tutorials/html
+
       - name: Install dependencies
         run: |
           cd apps/frontend
@@ -42,6 +64,11 @@ jobs:
         run: |
           cd apps/frontend
           npm run build
+          
+      - name: Copy notebooks to frontend build
+        run: |
+          mkdir -p apps/frontend/dist/notebooks
+          cp -r notebooks/* apps/frontend/dist/notebooks/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
