@@ -982,129 +982,159 @@ function App() {
   );
 
   const HomeView = () => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+    <div className="min-h-screen bg-white">
+      {/* Header - Apple HIG Style */}
+      <header className="bg-white/95 backdrop-blur-xl border-b border-gray-200/60 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-teal-600 rounded-lg flex items-center justify-center">
-                <Microscope className="w-6 h-6 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                <Microscope className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">AI in Digital Pathology: Tutorials</h1>
-                <p className="text-sm text-slate-600">From Image Processing to Deep Learning</p>
+                <h1 className="text-lg font-semibold text-gray-900 tracking-tight">AI in Digital Pathology</h1>
+                <p className="text-xs text-gray-500 font-medium">Interactive Tutorials</p>
               </div>
             </div>
             <a 
-              href="https://github.com" 
-              className="flex items-center space-x-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+              href="https://github.com/anand-indx/dp-t25" 
+              className="flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-all duration-200 text-sm font-medium shadow-sm"
             >
               <Github className="w-4 h-4" />
-              <span>View on GitHub</span>
+              <span>GitHub</span>
             </a>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 mb-6">
-            Master AI in Digital Pathology with Interactive Notebooks
+      <main className="max-w-6xl mx-auto px-6">
+        {/* Hero Section - Apple HIG Style */}
+        <section className="pt-16 pb-20 text-center">
+          {/* Refined Badge */}
+          <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full text-blue-600 text-sm font-medium mb-8 border border-blue-100">
+            <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+            AI-Powered Learning Platform
+          </div>
+          
+          {/* Apple-style Typography */}
+          <h2 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-[1.1] tracking-tight">
+            Master AI in Digital 
+            <span className="block font-semibold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+              Pathology
+            </span>
           </h2>
-          <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-            Learn image processing, machine learning, and deep learning techniques specifically designed for digital pathology. Each tutorial includes hands-on exercises and real pathology datasets.
+          
+          <p className="text-xl font-light text-gray-600 mb-16 max-w-3xl mx-auto leading-relaxed">
+            Learn through hands-on tutorials, from basic image processing to advanced deep learning 
+            and foundation models. Each lesson includes real pathology datasets and interactive exercises.
           </p>
           
-          {/* Action Buttons */}
-          <div className="flex justify-center space-x-4 mb-8">
+          {/* Apple-style Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
             <button
               onClick={() => setCurrentView('dashboard')}
-              className="bg-gradient-to-r from-blue-600 to-teal-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-teal-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              className="bg-blue-600 text-white px-8 py-3.5 rounded-xl font-medium hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
             >
-              <Play className="w-5 h-5" />
+              <Play className="w-4 h-4" />
               <span>Start Learning Path</span>
             </button>
             <button
               onClick={() => setCurrentView('dashboard')}
-              className="bg-white text-slate-700 px-8 py-4 rounded-lg font-semibold border border-slate-300 hover:bg-slate-50 transition-colors flex items-center space-x-2"
+              className="bg-gray-100 text-gray-900 px-8 py-3.5 rounded-xl font-medium hover:bg-gray-200 transition-all duration-200 border border-gray-200 hover:border-gray-300 flex items-center justify-center space-x-2"
             >
-              <BarChart3 className="w-5 h-5" />
+              <BarChart3 className="w-4 h-4" />
               <span>View Progress</span>
             </button>
           </div>
           
-          <div className="flex items-center justify-center space-x-6">
-            <div className="flex items-center space-x-2 text-slate-700">
-              <CheckCircle className="w-5 h-5 text-green-600" />
-              <span>Progressive learning path</span>
+          {/* Feature Pills */}
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex items-center space-x-2 bg-green-50 text-green-700 px-4 py-2 rounded-full border border-green-100">
+              <CheckCircle className="w-4 h-4" />
+              <span>Progressive Learning</span>
             </div>
-            <div className="flex items-center space-x-2 text-slate-700">
-              <Database className="w-5 h-5 text-blue-600" />
-              <span>Real pathology datasets</span>
+            <div className="flex items-center space-x-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full border border-blue-100">
+              <Database className="w-4 h-4" />
+              <span>Real Datasets</span>
             </div>
-            <div className="flex items-center space-x-2 text-slate-700">
-              <Trophy className="w-5 h-5 text-yellow-600" />
-              <span>Auto-graded exercises</span>
+            <div className="flex items-center space-x-2 bg-yellow-50 text-yellow-700 px-4 py-2 rounded-full border border-yellow-100">
+              <Trophy className="w-4 h-4" />
+              <span>Interactive Exercises</span>
             </div>
           </div>
         </section>
 
         {IS_GITHUB_PAGES && (
-          <section className="mb-16 bg-white rounded-xl border border-slate-200 p-8">
-            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">📚 How to Run the Tutorials</h3>
-            <p className="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
-              Choose your preferred way to work with our interactive Jupyter notebooks. Each method has different benefits for learning and experimentation.
-            </p>
+          <section className="mb-20 bg-gray-50/50 rounded-2xl border border-gray-100 p-10">
+            <div className="text-center mb-10">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-4 tracking-tight">Choose Your Learning Environment</h3>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Select the environment that works best for your learning style and technical setup.
+              </p>
+            </div>
             
-            <div className="grid md:grid-cols-4 gap-6">
-              <div className="text-center p-4 border border-slate-200 rounded-lg">
-                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <Github className="w-6 h-6 text-slate-600" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
+                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                  <Github className="w-6 h-6 text-gray-700" />
                 </div>
-                <h4 className="font-semibold text-slate-900 mb-2">View</h4>
-                <p className="text-sm text-slate-600">Preview notebooks as static HTML. Good for reading and understanding concepts.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">View</h4>
+                <p className="text-sm text-gray-600 text-center leading-relaxed">
+                  Browse notebooks as formatted documents. Perfect for reviewing concepts and code structure.
+                </p>
               </div>
               
-              <div className="text-center p-4 border border-orange-200 rounded-lg bg-orange-50">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 p-6 rounded-2xl border border-orange-200 hover:border-orange-300 hover:shadow-lg transition-all duration-200 relative">
+                <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  Recommended
+                </div>
+                <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                   <ExternalLink className="w-6 h-6 text-orange-600" />
                 </div>
-                <h4 className="font-semibold text-slate-900 mb-2">Colab ⭐</h4>
-                <p className="text-sm text-slate-600"><strong>Recommended:</strong> Full Python environment with GPU access. Best for learning and experimentation.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Colab</h4>
+                <p className="text-sm text-gray-600 text-center leading-relaxed">
+                  Full Python environment with GPU access. Best for hands-on learning and experimentation.
+                </p>
               </div>
               
-              <div className="text-center p-4 border border-pink-200 rounded-lg">
-                <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
+                <div className="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                   <Play className="w-6 h-6 text-pink-600" />
                 </div>
-                <h4 className="font-semibold text-slate-900 mb-2">Binder</h4>
-                <p className="text-sm text-slate-600">Free cloud environment. Takes 1-2 minutes to launch but fully interactive.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Binder</h4>
+                <p className="text-sm text-gray-600 text-center leading-relaxed">
+                  Free cloud environment. Takes 1-2 minutes to launch but fully interactive.
+                </p>
               </div>
               
-              <div className="text-center p-4 border border-blue-200 rounded-lg">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
+                <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                   <Brain className="w-6 h-6 text-blue-600" />
                 </div>
-                <h4 className="font-semibold text-slate-900 mb-2">Lite</h4>
-                <p className="text-sm text-slate-600">Run Python directly in your browser. No server needed, but limited package support.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Lite</h4>
+                <p className="text-sm text-gray-600 text-center leading-relaxed">
+                  Run Python directly in browser. Instant startup with basic package support.
+                </p>
               </div>
             </div>
             
-            <div className="mt-6 text-center">
-              <p className="text-sm text-slate-500">💡 <strong>Tip:</strong> Start with <strong>Colab</strong> for the best experience, or try <strong>Lite</strong> for quick experimentation.</p>
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500 bg-white/50 px-4 py-2 rounded-full inline-block">
+                💡 <strong>New to coding?</strong> Start with Colab for the smoothest experience
+              </p>
             </div>
           </section>
         )}
 
         {/* Learning Path Overview */}
-        <section className="mb-16">
-          <h3 className="text-3xl font-bold text-slate-900 mb-8 text-center">Structured Learning Path</h3>
-          <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
-            Follow our carefully designed curriculum that builds from fundamental concepts to advanced techniques. 
-            Each course unlocks the next, ensuring you have the foundation needed for success.
-          </p>
+        <section className="mb-20">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl font-semibold text-gray-900 mb-4 tracking-tight">Your Learning Journey</h3>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              Follow our progressive curriculum designed by experts. Each course builds on previous knowledge, 
+              ensuring you develop strong foundations before advancing.
+            </p>
+          </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {tutorials.map((tutorial, index) => {
@@ -1114,58 +1144,58 @@ function App() {
               return (
                 <div
                   key={tutorial.id}
-                  className={`bg-white rounded-xl border transition-all duration-300 ${
+                  className={`bg-white rounded-2xl transition-all duration-300 border ${
                     isUnlocked 
-                      ? 'border-slate-200 hover:shadow-lg hover:border-slate-300 cursor-pointer' 
-                      : 'border-slate-100 opacity-60'
+                      ? 'border-gray-200 hover:shadow-xl hover:border-gray-300 cursor-pointer hover:scale-[1.02]' 
+                      : 'border-gray-100 opacity-60'
                   } ${
-                    isCompleted ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' : ''
+                    isCompleted ? 'bg-gradient-to-br from-green-50 to-emerald-50/50 border-green-200' : ''
                   }`}
                   onClick={() => isUnlocked && setCurrentView('dashboard')}
                 >
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center relative ${
+                  <div className="p-8">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center space-x-4">
+                        <div className={`relative w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm ${
                           isCompleted 
-                            ? 'bg-gradient-to-br from-green-600 to-emerald-600' 
+                            ? 'bg-gradient-to-br from-green-500 to-emerald-600' 
                             : isUnlocked 
-                              ? 'bg-gradient-to-br from-blue-600 to-teal-600'
-                              : 'bg-slate-300'
+                              ? 'bg-gradient-to-br from-blue-500 to-blue-600'
+                              : 'bg-gray-300'
                         }`}>
                           {isCompleted ? (
                             <CheckCircle className="w-6 h-6 text-white" />
                           ) : isUnlocked ? (
                             getLevelIcon(tutorial.level)
                           ) : (
-                            <Lock className="w-6 h-6 text-slate-500" />
+                            <Lock className="w-6 h-6 text-gray-500" />
                           )}
-                          <span className="absolute -top-2 -right-2 w-6 h-6 bg-slate-600 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                          <span className="absolute -top-2 -right-2 w-6 h-6 bg-gray-900 text-white text-xs rounded-full flex items-center justify-center font-semibold">
                             {index + 1}
                           </span>
                         </div>
-                        <span className="text-2xl font-bold text-slate-400">0{index + 1}</span>
+                        <span className="text-3xl font-light text-gray-400">{String(index + 1).padStart(2, '0')}</span>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getLevelColor(tutorial.level)}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelColor(tutorial.level)}`}>
                         {tutorial.level}
                       </span>
                     </div>
                     
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">{tutorial.title}</h4>
-                    <p className="text-slate-600 mb-4">{tutorial.description}</p>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-3 leading-tight">{tutorial.title}</h4>
+                    <p className="text-gray-600 mb-6 leading-relaxed">{tutorial.description}</p>
                     
-                    <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
-                      <span>{tutorial.duration}</span>
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+                      <span className="font-medium">{tutorial.duration}</span>
                       <span>{tutorial.tasks.length} exercises</span>
                     </div>
 
-                    {/* Prerequisites Info */}
+                    {/* Prerequisites */}
                     {tutorial.prerequisites.length > 0 && (
-                      <div className="mb-4">
-                        <span className="text-xs text-slate-500">Requires:</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
+                      <div className="mb-6">
+                        <span className="text-xs text-gray-500 font-medium mb-2 block">Prerequisites:</span>
+                        <div className="flex flex-wrap gap-2">
                           {tutorial.prerequisites.map((prereq) => (
-                            <span key={prereq} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md">
+                            <span key={prereq} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium">
                               {tutorials.find(t => t.id === prereq)?.title || prereq}
                             </span>
                           ))}
@@ -1173,21 +1203,21 @@ function App() {
                       </div>
                     )}
 
-                    {/* Action */}
+                    {/* Action Status */}
                     {isCompleted ? (
-                      <div className="flex items-center text-green-600 font-semibold">
+                      <div className="flex items-center text-green-600 font-medium bg-green-50 px-3 py-2 rounded-lg">
                         <Trophy className="w-4 h-4 mr-2" />
                         Completed
                       </div>
                     ) : isUnlocked ? (
-                      <div className="flex items-center text-blue-600 font-semibold hover:text-blue-700">
+                      <div className="flex items-center text-blue-600 font-medium bg-blue-50 px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors">
                         <Play className="w-4 h-4 mr-2" />
                         Start Course
                       </div>
                     ) : (
-                      <div className="flex items-center text-slate-400">
+                      <div className="flex items-center text-gray-500 font-medium bg-gray-50 px-3 py-2 rounded-lg">
                         <Lock className="w-4 h-4 mr-2" />
-                        Locked
+                        Complete prerequisites to unlock
                       </div>
                     )}
                   </div>
