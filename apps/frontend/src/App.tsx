@@ -12,14 +12,19 @@ interface Task {
   estimatedTime: string;
 }
 
+interface Dataset {
+  name: string;
+  description: string;
+  url: string;
+}
+
 interface Tutorial {
   id: string;
   title: string;
   level: string;
   description: string;
   tasks: Task[];
-  datasets: string[];
-  autoCheck: string;
+  datasets: Dataset[];
   duration: string;
   prerequisites: string[];
   locked?: boolean;
@@ -48,8 +53,23 @@ const tutorials: Tutorial[] = [
       { name: 'Implement color normalization', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/04_color_normalization.ipynb', estimatedTime: '40 min' },
       { name: '🎯 Run Autograding Tests (Check Your Progress)', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/test_autograding.ipynb', estimatedTime: '20 min' }
     ],
-    datasets: ['CAMELYON16', 'GlaS Challenge', 'Kaggle Samples'],
-    autoCheck: 'assert img_array.shape == (256, 256, 3)',
+    datasets: [
+      { 
+        name: 'CAMELYON16', 
+        description: 'Lymph node metastases detection dataset with H&E stained whole-slide images',
+        url: 'https://camelyon16.grand-challenge.org/Data/' 
+      },
+      { 
+        name: 'GlaS Challenge', 
+        description: 'Gland segmentation dataset from colorectal cancer histology images',
+        url: 'https://warwick.ac.uk/fac/cross_fac/tia/data/glascontest' 
+      },
+      { 
+        name: 'Kaggle Samples', 
+        description: 'Sample histopathology images for practice and learning',
+        url: 'https://www.kaggle.com/datasets/paultimothymooney/breast-histopathology-images' 
+      }
+    ],
     duration: '2-3 hours',
     prerequisites: []
   },
@@ -65,8 +85,23 @@ const tutorials: Tutorial[] = [
       { name: 'UMAP and dimensionality reduction', notebookUrl: 'notebooks/visualization-tutorials/notebooks/04_umap_dimensionality.ipynb', estimatedTime: '50 min' },
       { name: '🎯 Visualization Skills Assessment', notebookUrl: 'notebooks/visualization-tutorials/notebooks/test_visualization.ipynb', estimatedTime: '30 min' }
     ],
-    datasets: ['TCGA Clinical Data', 'PathML Features', 'Spatial Coordinates'],
-    autoCheck: 'assert umap_embedding.shape[1] == 2',
+    datasets: [
+      { 
+        name: 'TCGA Clinical Data', 
+        description: 'Clinical and genomic data from The Cancer Genome Atlas for pathology visualization',
+        url: 'https://portal.gdc.cancer.gov/projects/TCGA-BRCA' 
+      },
+      { 
+        name: 'PathML Features', 
+        description: 'Extracted morphological features from histopathology images using PathML',
+        url: 'https://github.com/Dana-Farber-AIOS/pathml' 
+      },
+      { 
+        name: 'Spatial Coordinates', 
+        description: 'Spatial coordinate data for tissue region analysis and visualization',
+        url: 'https://www.nature.com/articles/s41592-019-0650-1' 
+      }
+    ],
     duration: '3-4 hours',
     prerequisites: ['image-processing']
   },
@@ -82,8 +117,18 @@ const tutorials: Tutorial[] = [
       { name: 'Implement cross-validation', notebookUrl: 'notebooks/ml-tutorials/notebooks/04_cross_validation.ipynb', estimatedTime: '40 min' },
       { name: '🎯 ML Classification Challenge', notebookUrl: 'notebooks/ml-tutorials/notebooks/test_ml_skills.ipynb', estimatedTime: '45 min' }
     ],
-    datasets: ['PatchCamelyon (PCam)', 'Histopathologic Cancer Detection'],
-    autoCheck: 'assert accuracy > 0.80',
+    datasets: [
+      { 
+        name: 'PatchCamelyon (PCam)', 
+        description: 'Binary classification dataset of histopathologic scans with metastatic tissue',
+        url: 'https://github.com/basveeling/pcam' 
+      },
+      { 
+        name: 'Histopathologic Cancer Detection', 
+        description: 'Kaggle competition dataset for identifying metastatic cancer in small patches',
+        url: 'https://www.kaggle.com/c/histopathologic-cancer-detection/data' 
+      }
+    ],
     duration: '4-5 hours',
     prerequisites: ['image-processing', 'data-visualization']
   },
@@ -99,8 +144,18 @@ const tutorials: Tutorial[] = [
       { name: 'Optimize hyperparameters and evaluate', notebookUrl: 'deep-learning-tutorials/notebooks/04_hyperparameter_optimization.ipynb', estimatedTime: '75 min' },
       { name: '🎯 Deep Learning Mastery Test', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
     ],
-    datasets: ['PCam on Kaggle', 'CAMELYON16 Patches'],
-    autoCheck: 'assert val_accuracy > 0.85',
+    datasets: [
+      { 
+        name: 'PCam on Kaggle', 
+        description: 'PatchCamelyon dataset hosted on Kaggle for easy access and competitions',
+        url: 'https://www.kaggle.com/datasets/paultimothymooney/patch-camelyon-patchcamelyon' 
+      },
+      { 
+        name: 'CAMELYON16 Patches', 
+        description: 'Pre-extracted patches from CAMELYON16 whole-slide images for deep learning',
+        url: 'https://camelyon16.grand-challenge.org/Data/' 
+      }
+    ],
     duration: '5-6 hours',
     prerequisites: ['machine-learning']
   },
@@ -116,8 +171,23 @@ const tutorials: Tutorial[] = [
       { name: 'Spatial analysis and morphometry', notebookUrl: 'wsi-tutorials/notebooks/04_spatial_morphometry.ipynb', estimatedTime: '85 min' },
       { name: '🎯 WSI Analysis Expertise Test', notebookUrl: 'wsi-tutorials/notebooks/test_wsi_analysis.ipynb', estimatedTime: '75 min' }
     ],
-    datasets: ['TCGA-BRCA WSI', 'CAMELYON16 WSI', 'GlaS Challenge'],
-    autoCheck: 'assert tissue_mask.sum() > 0.6 * total_pixels',
+    datasets: [
+      { 
+        name: 'TCGA-BRCA WSI', 
+        description: 'Whole-slide images from breast cancer samples in The Cancer Genome Atlas',
+        url: 'https://portal.gdc.cancer.gov/projects/TCGA-BRCA' 
+      },
+      { 
+        name: 'CAMELYON16 WSI', 
+        description: 'Complete whole-slide images from lymph node sections for large-scale analysis',
+        url: 'https://camelyon16.grand-challenge.org/Data/' 
+      },
+      { 
+        name: 'GlaS Challenge', 
+        description: 'Gland segmentation challenge dataset with whole-slide annotations',
+        url: 'https://warwick.ac.uk/fac/cross_fac/tia/data/glascontest' 
+      }
+    ],
     duration: '6-7 hours',
     prerequisites: ['deep-learning']
   },
@@ -133,8 +203,23 @@ const tutorials: Tutorial[] = [
       { name: 'Biomarker quantification pipelines', notebookUrl: 'comp-pathology-tutorials/notebooks/04_biomarker_quantification.ipynb', estimatedTime: '80 min' },
       { name: '🎯 Computational Pathology Mastery', notebookUrl: 'comp-pathology-tutorials/notebooks/test_comp_pathology.ipynb', estimatedTime: '70 min' }
     ],
-    datasets: ['CoNSeP', 'MoNuSeg', 'Kumar Dataset'],
-    autoCheck: 'assert cell_detection_f1 > 0.85',
+    datasets: [
+      { 
+        name: 'CoNSeP', 
+        description: 'Colorectal Nuclear Segmentation and Phenotypes dataset with nuclear boundaries',
+        url: 'https://warwick.ac.uk/fac/cross_fac/tia/data/hovernet' 
+      },
+      { 
+        name: 'MoNuSeg', 
+        description: 'Multi-organ nuclei segmentation challenge dataset for cell detection',
+        url: 'https://monuseg.grand-challenge.org/Data/' 
+      },
+      { 
+        name: 'Kumar Dataset', 
+        description: 'Multi-organ nuclear segmentation dataset with pixel-level annotations',
+        url: 'https://nucleisegmentationbenchmark.weebly.com/' 
+      }
+    ],
     duration: '6-8 hours',
     prerequisites: ['whole-slide-analysis']
   },
@@ -150,8 +235,23 @@ const tutorials: Tutorial[] = [
       { name: 'Vision-language models for pathology', notebookUrl: 'foundation-models-tutorials/notebooks/04_vision_language_models.ipynb', estimatedTime: '110 min' },
       { name: '🎯 Foundation Models Excellence Test', notebookUrl: 'foundation-models-tutorials/notebooks/test_foundation_models.ipynb', estimatedTime: '80 min' }
     ],
-    datasets: ['PathLLM', 'OpenPath', 'PubMed Pathology'],
-    autoCheck: 'assert model_accuracy > 0.90',
+    datasets: [
+      { 
+        name: 'PathLLM', 
+        description: 'Large language model trained on pathology reports and medical literature',
+        url: 'https://github.com/kbressem/pathLLM' 
+      },
+      { 
+        name: 'OpenPath', 
+        description: 'Open-source foundation model for computational pathology tasks',
+        url: 'https://github.com/openpath/OpenPath' 
+      },
+      { 
+        name: 'PubMed Pathology', 
+        description: 'Curated pathology literature and case studies from PubMed database',
+        url: 'https://pubmed.ncbi.nlm.nih.gov/' 
+      }
+    ],
     duration: '8-10 hours',
     prerequisites: ['computational-pathology']
   },
@@ -167,8 +267,23 @@ const tutorials: Tutorial[] = [
       { name: 'Survival analysis with spatial features', notebookUrl: 'spatial-tutorials/notebooks/04_survival_analysis.ipynb', estimatedTime: '110 min' },
       { name: '🎯 Spatial Multi-omics Mastery', notebookUrl: 'spatial-tutorials/notebooks/test_spatial_analysis.ipynb', estimatedTime: '90 min' }
     ],
-    datasets: ['10x Visium', 'MERFISH', 'Spatial TCGA'],
-    autoCheck: 'assert spatial_correlation > 0.75',
+    datasets: [
+      { 
+        name: '10x Visium', 
+        description: 'Spatial gene expression data from 10x Genomics Visium platform',
+        url: 'https://www.10xgenomics.com/resources/datasets' 
+      },
+      { 
+        name: 'MERFISH', 
+        description: 'Multiplexed error-robust fluorescence in situ hybridization spatial data',
+        url: 'https://datadryad.org/stash/dataset/doi:10.5061/dryad.8t8s248' 
+      },
+      { 
+        name: 'Spatial TCGA', 
+        description: 'Spatially resolved data from TCGA samples for tissue architecture analysis',
+        url: 'https://portal.gdc.cancer.gov/projects/TCGA-BRCA' 
+      }
+    ],
     duration: '8-10 hours',
     prerequisites: ['foundation-models']
   }
@@ -831,30 +946,28 @@ function App() {
                         </button>
                       )}
 
-                      {/* Datasets & Auto-check Info */}
-                      <div className="grid md:grid-cols-2 gap-4 mt-6">
-                        <div>
-                          <h5 className="font-semibold text-slate-800 mb-2 flex items-center">
-                            <Database className="w-4 h-4 mr-2 text-blue-600" />
-                            Datasets:
-                          </h5>
-                          <div className="flex flex-wrap gap-2">
-                            {tutorial.datasets.map((dataset, idx) => (
-                              <span key={idx} className="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs border border-blue-200">
-                                {dataset}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <h5 className="font-semibold text-slate-800 mb-2 flex items-center">
-                            <Brain className="w-4 h-4 mr-2 text-purple-600" />
-                            Auto-Check:
-                          </h5>
-                          <code className="bg-white text-slate-800 px-3 py-2 rounded border text-xs block">
-                            {tutorial.autoCheck}
-                          </code>
+                      {/* Enhanced Datasets Section */}
+                      <div className="mt-6">
+                        <h5 className="font-semibold text-slate-800 mb-3 flex items-center">
+                          <Database className="w-4 h-4 mr-2 text-blue-600" />
+                          📊 Datasets & Resources
+                        </h5>
+                        <div className="space-y-3">
+                          {tutorial.datasets.map((dataset, idx) => (
+                            <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4 hover:bg-blue-100 transition-colors">
+                              <div className="font-medium text-blue-900 mb-2">{dataset.name}</div>
+                              <div className="text-sm text-gray-700 mb-3 leading-relaxed">{dataset.description}</div>
+                              <a 
+                                href={dataset.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition-colors"
+                              >
+                                <ExternalLink className="w-3 h-3 mr-1" />
+                                Access Dataset
+                              </a>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
