@@ -45,7 +45,7 @@ const tutorials: Tutorial[] = [
     id: 'image-processing',
     title: 'Image Processing Fundamentals',
     level: 'Beginner',
-    description: 'Master the basics of digital pathology image manipulation, visualization, and preprocessing techniques.',
+  description: 'Learning the basics of digital pathology image manipulation, visualization, and preprocessing techniques.',
     tasks: [
   { name: 'Load and visualize histopathology images', notebookUrl: 'image-processing-tutorials/notebooks/01_load_and_visualize.ipynb', estimatedTime: '30 min' },
   { name: 'Perform image resizing and grayscale conversion', notebookUrl: 'image-processing-tutorials/notebooks/02_resizing_and_grayscale.ipynb', estimatedTime: '25 min' },
@@ -142,7 +142,7 @@ const tutorials: Tutorial[] = [
   { name: 'Implement data augmentation pipeline', notebookUrl: 'deep-learning-tutorials/notebooks/02_data_augmentation.ipynb', estimatedTime: '45 min' },
   { name: 'Train deep learning models', notebookUrl: 'deep-learning-tutorials/notebooks/03_model_training.ipynb', estimatedTime: '90 min' },
   { name: 'Optimize hyperparameters and evaluate', notebookUrl: 'deep-learning-tutorials/notebooks/04_hyperparameter_optimization.ipynb', estimatedTime: '75 min' },
-  { name: '🎯 Deep Learning Mastery Test', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
+  { name: '🎯 Deep Learning Assessment', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
     ],
     datasets: [
       { 
@@ -163,7 +163,7 @@ const tutorials: Tutorial[] = [
     id: 'whole-slide-analysis',
     title: 'Whole Slide Image Analysis',
     level: 'Advanced',
-    description: 'Master large-scale histopathology image processing using tiling, stitching, and multi-resolution analysis techniques.',
+  description: 'Learning large-scale histopathology image processing using tiling, stitching, and multi-resolution analysis techniques.',
     tasks: [
   { name: 'QuPath integration and scripting', notebookUrl: 'wsi-tutorials/notebooks/01_qupath_integration.ipynb', estimatedTime: '80 min' },
   { name: 'Multi-scale tissue segmentation', notebookUrl: 'wsi-tutorials/notebooks/02_tissue_segmentation.ipynb', estimatedTime: '90 min' },
@@ -201,7 +201,7 @@ const tutorials: Tutorial[] = [
       { name: 'Stain normalization and color deconvolution', notebookUrl: 'comp-pathology-tutorials/notebooks/02_stain_normalization.ipynb', estimatedTime: '60 min' },
       { name: 'Cell detection and nuclei segmentation', notebookUrl: 'comp-pathology-tutorials/notebooks/03_cell_detection.ipynb', estimatedTime: '95 min' },
       { name: 'Biomarker quantification pipelines', notebookUrl: 'comp-pathology-tutorials/notebooks/04_biomarker_quantification.ipynb', estimatedTime: '80 min' },
-      { name: '🎯 Computational Pathology Mastery', notebookUrl: 'comp-pathology-tutorials/notebooks/test_comp_pathology.ipynb', estimatedTime: '70 min' }
+  { name: '🎯 Computational Pathology Learning Assessment', notebookUrl: 'comp-pathology-tutorials/notebooks/test_comp_pathology.ipynb', estimatedTime: '70 min' }
     ],
     datasets: [
       { 
@@ -265,7 +265,7 @@ const tutorials: Tutorial[] = [
       { name: 'Image-omics data fusion techniques', notebookUrl: 'spatial-tutorials/notebooks/02_image_omics_fusion.ipynb', estimatedTime: '95 min' },
       { name: 'Spatial clustering and neighborhood analysis', notebookUrl: 'spatial-tutorials/notebooks/03_spatial_clustering.ipynb', estimatedTime: '100 min' },
       { name: 'Survival analysis with spatial features', notebookUrl: 'spatial-tutorials/notebooks/04_survival_analysis.ipynb', estimatedTime: '110 min' },
-      { name: '🎯 Spatial Multi-omics Mastery', notebookUrl: 'spatial-tutorials/notebooks/test_spatial_analysis.ipynb', estimatedTime: '90 min' }
+  { name: '🎯 Spatial Multi-omics Learning Assessment', notebookUrl: 'spatial-tutorials/notebooks/test_spatial_analysis.ipynb', estimatedTime: '90 min' }
     ],
     datasets: [
       { 
@@ -344,7 +344,7 @@ const learningResources = [
   {
     category: 'Data Science Foundations',
     title: 'NumPy, Pandas & Visualization',
-    description: 'Master the core libraries used throughout our tutorials',
+  description: 'Learning the core libraries used throughout our tutorials',
     icon: '📊',
     difficulty: 'Beginner',
     items: [
@@ -1032,8 +1032,8 @@ function App() {
           
           {/* Apple-style Typography */}
           <h2 className="text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-[1.1] tracking-tight">
-            Master AI in Digital 
-            <span className="block font-semibold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+            Learning AI in Digital 
+            <span className="inline-block pb-[2px] font-semibold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
               Pathology
             </span>
           </h2>
