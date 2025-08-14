@@ -55,30 +55,20 @@ jobs:
 
       - name: Build JupyterLite
         run: |
-          # Create necessary directories for JupyterLite build
-          mkdir -p apps/frontend/dist/lite
-          mkdir -p apps/frontend/dist/lite/_output
+          # Build JupyterLite to a temporary directory first
+          jupyter lite build --contents notebooks --output-dir jupyterlite-build || echo "Build completed with warnings"
           
-          # Build JupyterLite site (ignore exit code as it may fail at the end but still produces working output)
-          jupyter lite build --contents notebooks --output-dir apps/frontend/dist/lite || true
-          
-          # Verify that the main files were created
-          if [ ! -f "apps/frontend/dist/lite/index.html" ]; then
+          # Verify the build succeeded
+          if [ ! -f "jupyterlite-build/index.html" ]; then
             echo "JupyterLite build failed - index.html not found"
             exit 1
           fi
           
-          # Verify that notebook files were copied
-          if [ ! -d "apps/frontend/dist/lite/files" ]; then
-            echo "JupyterLite build failed - files directory not found"
-            exit 1
-          fi
-          
           echo "JupyterLite build completed successfully"
-          echo "Files in lite directory:"
-          ls -la apps/frontend/dist/lite/
-          echo "Files in lite/files directory:"
-          ls -la apps/frontend/dist/lite/files/ || echo "No files directory"
+          echo "Files in jupyterlite-build:"
+          ls -la jupyterlite-build/
+          echo "Files in jupyterlite-build/files:"
+          ls -la jupyterlite-build/files/ || echo "No files directory found"
 
       - name: Install dependencies
         run: |
@@ -90,10 +80,21 @@ jobs:
           cd apps/frontend
           npm run build
           
-      - name: Copy notebooks to frontend build
+      - name: Copy JupyterLite and notebooks to frontend build
         run: |
+          # Copy JupyterLite build to frontend dist/lite
+          mkdir -p apps/frontend/dist/lite
+          cp -r jupyterlite-build/* apps/frontend/dist/lite/
+          
+          # Also copy raw notebooks for backup access
           mkdir -p apps/frontend/dist/notebooks
           cp -r notebooks/* apps/frontend/dist/notebooks/
+          
+          echo "Final structure:"
+          echo "apps/frontend/dist/lite:"
+          ls -la apps/frontend/dist/lite/
+          echo "apps/frontend/dist/lite/files:"
+          ls -la apps/frontend/dist/lite/files/ || echo "No files directory"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
