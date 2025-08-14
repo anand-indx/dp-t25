@@ -736,13 +736,14 @@ function App() {
                                 )}
                                 
                                 {IS_GITHUB_PAGES ? (
-                                  <div className="flex items-center space-x-2">
+                                  <div className="flex flex-wrap items-center gap-2">
                                     <a 
                                       href={`https://github.com/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-slate-600 text-white px-3 py-1 rounded-md hover:bg-slate-700 transition-colors text-sm"
+                                      className="inline-flex items-center space-x-1 bg-slate-600 text-white px-2 py-1 rounded-md hover:bg-slate-700 transition-colors text-xs"
                                       onClick={(e) => e.stopPropagation()}
+                                      title="View notebook source on GitHub"
                                     >
                                       <Github className="w-3 h-3" />
                                       <span>View</span>
@@ -751,16 +752,49 @@ function App() {
                                       href={`https://colab.research.google.com/github/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 transition-colors text-sm"
+                                      className="inline-flex items-center space-x-1 bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-600 transition-colors text-xs"
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         if (!taskCompleted) {
                                           setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
                                         }
                                       }}
+                                      title="Open in Google Colab (recommended)"
                                     >
                                       <ExternalLink className="w-3 h-3" />
                                       <span>Colab</span>
+                                    </a>
+                                    <a 
+                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?filepath=${task.notebookUrl}`}
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center space-x-1 bg-pink-500 text-white px-2 py-1 rounded-md hover:bg-pink-600 transition-colors text-xs"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (!taskCompleted) {
+                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                        }
+                                      }}
+                                      title="Launch in Binder (free cloud environment)"
+                                    >
+                                      <Play className="w-3 h-3" />
+                                      <span>Binder</span>
+                                    </a>
+                                    <a 
+                                      href={`/dp-t25/lite/lab/index.html?path=${task.notebookUrl}`}
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center space-x-1 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors text-xs"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (!taskCompleted) {
+                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                        }
+                                      }}
+                                      title="Run in browser with JupyterLite (no server needed)"
+                                    >
+                                      <Cpu className="w-3 h-3" />
+                                      <span>Lite</span>
                                     </a>
                                   </div>
                                 ) : (
@@ -903,6 +937,53 @@ function App() {
             </div>
           </div>
         </section>
+
+        {IS_GITHUB_PAGES && (
+          <section className="mb-16 bg-white rounded-xl border border-slate-200 p-8">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">📚 How to Run the Tutorials</h3>
+            <p className="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
+              Choose your preferred way to work with our interactive Jupyter notebooks. Each method has different benefits for learning and experimentation.
+            </p>
+            
+            <div className="grid md:grid-cols-4 gap-6">
+              <div className="text-center p-4 border border-slate-200 rounded-lg">
+                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Github className="w-6 h-6 text-slate-600" />
+                </div>
+                <h4 className="font-semibold text-slate-900 mb-2">View</h4>
+                <p className="text-sm text-slate-600">Preview notebooks as static HTML. Good for reading and understanding concepts.</p>
+              </div>
+              
+              <div className="text-center p-4 border border-orange-200 rounded-lg bg-orange-50">
+                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <ExternalLink className="w-6 h-6 text-orange-600" />
+                </div>
+                <h4 className="font-semibold text-slate-900 mb-2">Colab ⭐</h4>
+                <p className="text-sm text-slate-600"><strong>Recommended:</strong> Full Python environment with GPU access. Best for learning and experimentation.</p>
+              </div>
+              
+              <div className="text-center p-4 border border-pink-200 rounded-lg">
+                <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Play className="w-6 h-6 text-pink-600" />
+                </div>
+                <h4 className="font-semibold text-slate-900 mb-2">Binder</h4>
+                <p className="text-sm text-slate-600">Free cloud environment. Takes 1-2 minutes to launch but fully interactive.</p>
+              </div>
+              
+              <div className="text-center p-4 border border-blue-200 rounded-lg">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Cpu className="w-6 h-6 text-blue-600" />
+                </div>
+                <h4 className="font-semibold text-slate-900 mb-2">Lite</h4>
+                <p className="text-sm text-slate-600">Run Python directly in your browser. No server needed, but limited package support.</p>
+              </div>
+            </div>
+            
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-500">💡 <strong>Tip:</strong> Start with <strong>Colab</strong> for the best experience, or try <strong>Lite</strong> for quick experimentation.</p>
+            </div>
+          </section>
+        )}
 
         {/* Learning Path Overview */}
         <section className="mb-16">
