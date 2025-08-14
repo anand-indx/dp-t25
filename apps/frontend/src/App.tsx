@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock } from 'lucide-react';
+import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock } from 'lucide-react';
 
 // Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
@@ -643,10 +643,10 @@ function App() {
 
   const getLevelIcon = (level: string) => {
     switch (level) {
-      case 'Beginner': return <Microscope className="w-6 h-6 text-white" />;
-      case 'Intermediate': return <Brain className="w-6 h-6 text-white" />;
-      case 'Advanced': return <Brain className="w-6 h-6 text-white" />;
-      case 'Expert': return <BookOpen className="w-6 h-6 text-white" />;
+  case 'Beginner': return <Microscope className="w-6 h-6 text-white" />;
+  case 'Intermediate': return <BarChart3 className="w-6 h-6 text-white" />;
+  case 'Advanced': return <Trophy className="w-6 h-6 text-white" />;
+  case 'Expert': return <BookOpen className="w-6 h-6 text-white" />;
       default: return <BookOpen className="w-6 h-6 text-white" />;
     }
   };
@@ -909,22 +909,6 @@ function App() {
                                       <Play className="w-3 h-3" />
                                       <span>Binder</span>
                                     </a>
-                                    <a 
-                                      href={`https://anand-indx.github.io/dp-t25/lite/lab?path=files/${task.notebookUrl}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors text-xs"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!taskCompleted) {
-                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
-                                        }
-                                      }}
-                                      title="Run in JupyterLite (Python in browser)"
-                                    >
-                                      <Brain className="w-3 h-3" />
-                                      <span>Lite</span>
-                                    </a>
                                   </div>
                                 ) : (
                                   <a 
@@ -1087,7 +1071,7 @@ function App() {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
                 <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                   <Github className="w-6 h-6 text-gray-700" />
@@ -1121,15 +1105,7 @@ function App() {
                 </p>
               </div>
               
-              <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
-                <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-                  <Brain className="w-6 h-6 text-blue-600" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Lite</h4>
-                <p className="text-sm text-gray-600 text-center leading-relaxed">
-                  Run Python directly in browser. Instant startup with basic package support.
-                </p>
-              </div>
+              {/* Lite option removed per request */}
             </div>
             
             <div className="mt-8 text-center">
