@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, Cpu, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock, Users } from 'lucide-react';
 
-// Get JupyterLab URL from environment or use default
+// Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
+const IS_GITHUB_PAGES = window.location.hostname === 'anand-indx.github.io' || import.meta.env.PROD;
 
 interface Task {
   name: string;
@@ -210,10 +211,10 @@ const learningResources = [
       {
         name: 'Jupyter Notebooks Primer',
         description: 'Learn the basics of interactive coding and data exploration',
-        action: 'Try Our Jupyter Lab',
-        url: `${JUPYTER_BASE_URL}/lab`,
+        action: IS_GITHUB_PAGES ? 'View on GitHub' : 'Try Our Jupyter Lab',
+        url: IS_GITHUB_PAGES ? 'https://github.com/anand-indx/dp-t25/tree/main/notebooks' : `${JUPYTER_BASE_URL}/lab`,
         type: 'interactive',
-        provider: 'Your Environment'
+        provider: IS_GITHUB_PAGES ? 'GitHub Repository' : 'Your Environment'
       },
       {
         name: 'Digital Pathology Overview',
@@ -734,7 +735,10 @@ function App() {
                                   </span>
                                 )}
                                 <a 
-                                  href={`${JUPYTER_BASE_URL}/lab/tree/${task.notebookUrl}`}
+                                  href={IS_GITHUB_PAGES 
+                                    ? `https://github.com/anand-indx/dp-t25/blob/main/${task.notebookUrl}`
+                                    : `${JUPYTER_BASE_URL}/lab/tree/${task.notebookUrl}`
+                                  }
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                   className="inline-flex items-center space-x-1 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition-colors text-sm"
@@ -746,7 +750,7 @@ function App() {
                                   }}
                                 >
                                   <Play className="w-3 h-3" />
-                                  <span>Start</span>
+                                  <span>{IS_GITHUB_PAGES ? 'View' : 'Start'}</span>
                                   <ExternalLink className="w-3 h-3" />
                                 </a>
                               </div>
