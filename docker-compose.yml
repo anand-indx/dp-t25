@@ -1,0 +1,52 @@
+services:
+  # React Frontend Application
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: dp-frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_JUPYTER_URL=http://localhost:8888
+    depends_on:
+      - jupyter
+    networks:
+      - tutorial-network
+    restart: unless-stopped
+
+  # JupyterLab Service
+  jupyter:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.jupyter
+    container_name: dp-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/workspace/notebooks:rw
+      - ./shared:/workspace/shared:ro
+      - jupyter_data:/workspace/data
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+      - NB_USER=jupyter
+      - CHOWN_HOME=yes
+      - CHOWN_HOME_OPTS=-R
+    networks:
+      - tutorial-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/api"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  tutorial-network:
+    driver: bridge
+
+volumes:
+  jupyter_data:
+    driver: local
