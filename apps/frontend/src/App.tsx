@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock, Users } from 'lucide-react';
+import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock } from 'lucide-react';
 
 // Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
@@ -47,11 +47,11 @@ const tutorials: Tutorial[] = [
     level: 'Beginner',
     description: 'Master the basics of digital pathology image manipulation, visualization, and preprocessing techniques.',
     tasks: [
-      { name: 'Load and visualize histopathology images', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/01_load_and_visualize.ipynb', estimatedTime: '30 min' },
-      { name: 'Perform image resizing and grayscale conversion', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/02_resizing_and_grayscale.ipynb', estimatedTime: '25 min' },
-      { name: 'Apply basic augmentation techniques', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/03_basic_augmentation.ipynb', estimatedTime: '35 min' },
-      { name: 'Implement color normalization', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/04_color_normalization.ipynb', estimatedTime: '40 min' },
-      { name: '🎯 Run Autograding Tests (Check Your Progress)', notebookUrl: 'notebooks/image-processing-tutorials/notebooks/test_autograding.ipynb', estimatedTime: '20 min' }
+  { name: 'Load and visualize histopathology images', notebookUrl: 'image-processing-tutorials/notebooks/01_load_and_visualize.ipynb', estimatedTime: '30 min' },
+  { name: 'Perform image resizing and grayscale conversion', notebookUrl: 'image-processing-tutorials/notebooks/02_resizing_and_grayscale.ipynb', estimatedTime: '25 min' },
+  { name: 'Apply basic augmentation techniques', notebookUrl: 'image-processing-tutorials/notebooks/03_basic_augmentation.ipynb', estimatedTime: '35 min' },
+  { name: 'Implement color normalization', notebookUrl: 'image-processing-tutorials/notebooks/04_color_normalization.ipynb', estimatedTime: '40 min' },
+  { name: '🎯 Run Autograding Tests (Check Your Progress)', notebookUrl: 'image-processing-tutorials/notebooks/test_autograding.ipynb', estimatedTime: '20 min' }
     ],
     datasets: [
       { 
@@ -79,11 +79,11 @@ const tutorials: Tutorial[] = [
     level: 'Beginner',
     description: 'Learn essential data analysis and visualization techniques including pandas, matplotlib, heatmaps, and UMAP.',
     tasks: [
-      { name: 'Pandas DataFrames for pathology data', notebookUrl: 'notebooks/visualization-tutorials/notebooks/01_pandas_pathology.ipynb', estimatedTime: '40 min' },
-      { name: 'Statistical analysis and plotting', notebookUrl: 'notebooks/visualization-tutorials/notebooks/02_statistical_plots.ipynb', estimatedTime: '45 min' },
-      { name: 'Heatmaps and correlation analysis', notebookUrl: 'notebooks/visualization-tutorials/notebooks/03_heatmaps_correlation.ipynb', estimatedTime: '35 min' },
-      { name: 'UMAP and dimensionality reduction', notebookUrl: 'notebooks/visualization-tutorials/notebooks/04_umap_dimensionality.ipynb', estimatedTime: '50 min' },
-      { name: '🎯 Visualization Skills Assessment', notebookUrl: 'notebooks/visualization-tutorials/notebooks/test_visualization.ipynb', estimatedTime: '30 min' }
+  { name: 'Pandas DataFrames for pathology data', notebookUrl: 'visualization-tutorials/notebooks/01_pandas_pathology.ipynb', estimatedTime: '40 min' },
+  { name: 'Statistical analysis and plotting', notebookUrl: 'visualization-tutorials/notebooks/02_statistical_plots.ipynb', estimatedTime: '45 min' },
+  { name: 'Heatmaps and correlation analysis', notebookUrl: 'visualization-tutorials/notebooks/03_heatmaps_correlation.ipynb', estimatedTime: '35 min' },
+  { name: 'UMAP and dimensionality reduction', notebookUrl: 'visualization-tutorials/notebooks/04_umap_dimensionality.ipynb', estimatedTime: '50 min' },
+  { name: '🎯 Visualization Skills Assessment', notebookUrl: 'visualization-tutorials/notebooks/test_visualization.ipynb', estimatedTime: '30 min' }
     ],
     datasets: [
       { 
@@ -111,11 +111,11 @@ const tutorials: Tutorial[] = [
     level: 'Intermediate',
     description: 'Build traditional ML classifiers for tissue classification using feature extraction and classical algorithms.',
     tasks: [
-      { name: 'Extract color histograms and texture features', notebookUrl: 'notebooks/ml-tutorials/notebooks/01_feature_extraction.ipynb', estimatedTime: '60 min' },
-      { name: 'Train Random Forest and SVM classifiers', notebookUrl: 'notebooks/ml-tutorials/notebooks/02_classical_ml.ipynb', estimatedTime: '50 min' },
-      { name: 'Evaluate model performance metrics', notebookUrl: 'notebooks/ml-tutorials/notebooks/03_model_evaluation.ipynb', estimatedTime: '45 min' },
-      { name: 'Implement cross-validation', notebookUrl: 'notebooks/ml-tutorials/notebooks/04_cross_validation.ipynb', estimatedTime: '40 min' },
-      { name: '🎯 ML Classification Challenge', notebookUrl: 'notebooks/ml-tutorials/notebooks/test_ml_skills.ipynb', estimatedTime: '45 min' }
+  { name: 'Extract color histograms and texture features', notebookUrl: 'ml-tutorials/notebooks/01_feature_extraction.ipynb', estimatedTime: '60 min' },
+  { name: 'Train Random Forest and SVM classifiers', notebookUrl: 'ml-tutorials/notebooks/02_classical_ml.ipynb', estimatedTime: '50 min' },
+  { name: 'Evaluate model performance metrics', notebookUrl: 'ml-tutorials/notebooks/03_model_evaluation.ipynb', estimatedTime: '45 min' },
+  { name: 'Implement cross-validation', notebookUrl: 'ml-tutorials/notebooks/04_cross_validation.ipynb', estimatedTime: '40 min' },
+  { name: '🎯 ML Classification Challenge', notebookUrl: 'ml-tutorials/notebooks/test_ml_skills.ipynb', estimatedTime: '45 min' }
     ],
     datasets: [
       { 
@@ -138,11 +138,11 @@ const tutorials: Tutorial[] = [
     level: 'Intermediate',
     description: 'Develop convolutional neural networks for automated cancer detection in digital pathology images.',
     tasks: [
-      { name: 'Design CNN architecture for pathology', notebookUrl: 'deep-learning-tutorials/notebooks/01_cnn_architecture.ipynb', estimatedTime: '70 min' },
-      { name: 'Implement data augmentation pipeline', notebookUrl: 'deep-learning-tutorials/notebooks/02_data_augmentation.ipynb', estimatedTime: '45 min' },
-      { name: 'Train deep learning models', notebookUrl: 'deep-learning-tutorials/notebooks/03_model_training.ipynb', estimatedTime: '90 min' },
-      { name: 'Optimize hyperparameters and evaluate', notebookUrl: 'deep-learning-tutorials/notebooks/04_hyperparameter_optimization.ipynb', estimatedTime: '75 min' },
-      { name: '🎯 Deep Learning Mastery Test', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
+  { name: 'Design CNN architecture for pathology', notebookUrl: 'deep-learning-tutorials/notebooks/01_cnn_architecture.ipynb', estimatedTime: '70 min' },
+  { name: 'Implement data augmentation pipeline', notebookUrl: 'deep-learning-tutorials/notebooks/02_data_augmentation.ipynb', estimatedTime: '45 min' },
+  { name: 'Train deep learning models', notebookUrl: 'deep-learning-tutorials/notebooks/03_model_training.ipynb', estimatedTime: '90 min' },
+  { name: 'Optimize hyperparameters and evaluate', notebookUrl: 'deep-learning-tutorials/notebooks/04_hyperparameter_optimization.ipynb', estimatedTime: '75 min' },
+  { name: '🎯 Deep Learning Mastery Test', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
     ],
     datasets: [
       { 
@@ -165,11 +165,11 @@ const tutorials: Tutorial[] = [
     level: 'Advanced',
     description: 'Master large-scale histopathology image processing using tiling, stitching, and multi-resolution analysis techniques.',
     tasks: [
-      { name: 'QuPath integration and scripting', notebookUrl: 'wsi-tutorials/notebooks/01_qupath_integration.ipynb', estimatedTime: '80 min' },
-      { name: 'Multi-scale tissue segmentation', notebookUrl: 'wsi-tutorials/notebooks/02_tissue_segmentation.ipynb', estimatedTime: '90 min' },
-      { name: 'Annotation tools and ground truth creation', notebookUrl: 'wsi-tutorials/notebooks/03_annotation_tools.ipynb', estimatedTime: '70 min' },
-      { name: 'Spatial analysis and morphometry', notebookUrl: 'wsi-tutorials/notebooks/04_spatial_morphometry.ipynb', estimatedTime: '85 min' },
-      { name: '🎯 WSI Analysis Expertise Test', notebookUrl: 'wsi-tutorials/notebooks/test_wsi_analysis.ipynb', estimatedTime: '75 min' }
+  { name: 'QuPath integration and scripting', notebookUrl: 'wsi-tutorials/notebooks/01_qupath_integration.ipynb', estimatedTime: '80 min' },
+  { name: 'Multi-scale tissue segmentation', notebookUrl: 'wsi-tutorials/notebooks/02_tissue_segmentation.ipynb', estimatedTime: '90 min' },
+  { name: 'Annotation tools and ground truth creation', notebookUrl: 'wsi-tutorials/notebooks/03_annotation_tools.ipynb', estimatedTime: '70 min' },
+  { name: 'Spatial analysis and morphometry', notebookUrl: 'wsi-tutorials/notebooks/04_spatial_morphometry.ipynb', estimatedTime: '85 min' },
+  { name: '🎯 WSI Analysis Expertise Test', notebookUrl: 'wsi-tutorials/notebooks/test_wsi_analysis.ipynb', estimatedTime: '75 min' }
     ],
     datasets: [
       { 
