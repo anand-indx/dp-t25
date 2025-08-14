@@ -40,12 +40,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install jupyter nbconvert jupyterlab
-          pip install jupyterlite-core jupyterlite-pyodide-kernel
-          
-      - name: Build JupyterLite site
-        run: |
-          # Build JupyterLite for browser-based notebook execution
-          jupyter lite build --contents notebooks --output-dir jupyterlite-dist
           
       - name: Convert notebooks to HTML
         run: |
@@ -72,9 +66,7 @@ jobs:
       - name: Copy notebooks to frontend build
         run: |
           mkdir -p apps/frontend/dist/notebooks
-          mkdir -p apps/frontend/dist/lite
           cp -r notebooks/* apps/frontend/dist/notebooks/
-          cp -r jupyterlite-dist/* apps/frontend/dist/lite/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

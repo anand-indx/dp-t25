@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, Cpu, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock, Users } from 'lucide-react';
+import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Brain, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock, Users } from 'lucide-react';
 
 // Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
@@ -530,7 +530,7 @@ function App() {
     switch (level) {
       case 'Beginner': return <Microscope className="w-6 h-6 text-white" />;
       case 'Intermediate': return <Brain className="w-6 h-6 text-white" />;
-      case 'Advanced': return <Cpu className="w-6 h-6 text-white" />;
+      case 'Advanced': return <Brain className="w-6 h-6 text-white" />;
       case 'Expert': return <BookOpen className="w-6 h-6 text-white" />;
       default: return <BookOpen className="w-6 h-6 text-white" />;
     }
@@ -780,22 +780,6 @@ function App() {
                                       <Play className="w-3 h-3" />
                                       <span>Binder</span>
                                     </a>
-                                    <a 
-                                      href={`/dp-t25/lite/lab/index.html?path=${task.notebookUrl}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors text-xs"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!taskCompleted) {
-                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
-                                        }
-                                      }}
-                                      title="Run in browser with JupyterLite (no server needed)"
-                                    >
-                                      <Cpu className="w-3 h-3" />
-                                      <span>Lite</span>
-                                    </a>
                                   </div>
                                 ) : (
                                   <a 
@@ -972,7 +956,7 @@ function App() {
               
               <div className="text-center p-4 border border-blue-200 rounded-lg">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <Cpu className="w-6 h-6 text-blue-600" />
+                  <Brain className="w-6 h-6 text-blue-600" />
                 </div>
                 <h4 className="font-semibold text-slate-900 mb-2">Lite</h4>
                 <p className="text-sm text-slate-600">Run Python directly in your browser. No server needed, but limited package support.</p>
