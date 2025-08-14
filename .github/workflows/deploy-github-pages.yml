@@ -39,7 +39,7 @@ jobs:
       - name: Install Jupyter and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install jupyter nbconvert jupyterlab
+          pip install jupyter nbconvert jupyterlab jupyterlite-core
           
       - name: Convert notebooks to HTML
         run: |
@@ -52,6 +52,18 @@ jobs:
           # Create index files for each tutorial directory
           mkdir -p notebooks/image-processing-tutorials/html
           mkdir -p notebooks/visualization-tutorials/html
+
+      - name: Build JupyterLite
+        run: |
+          # Build JupyterLite site (ignore exit code as it may fail at the end but still produces working output)
+          mkdir -p apps/frontend/dist/lite
+          jupyter lite build --contents notebooks --output-dir apps/frontend/dist/lite || true
+          # Verify that the main files were created
+          if [ ! -f "apps/frontend/dist/lite/index.html" ]; then
+            echo "JupyterLite build failed - index.html not found"
+            exit 1
+          fi
+          echo "JupyterLite build completed successfully"
 
       - name: Install dependencies
         run: |

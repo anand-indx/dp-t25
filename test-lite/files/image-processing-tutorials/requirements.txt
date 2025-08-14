@@ -1,0 +1,6 @@
+jupyter
+openslide-python
+Pillow
+matplotlib
+numpy
+ipynb
