@@ -55,15 +55,30 @@ jobs:
 
       - name: Build JupyterLite
         run: |
-          # Build JupyterLite site (ignore exit code as it may fail at the end but still produces working output)
+          # Create necessary directories for JupyterLite build
           mkdir -p apps/frontend/dist/lite
+          mkdir -p apps/frontend/dist/lite/_output
+          
+          # Build JupyterLite site (ignore exit code as it may fail at the end but still produces working output)
           jupyter lite build --contents notebooks --output-dir apps/frontend/dist/lite || true
+          
           # Verify that the main files were created
           if [ ! -f "apps/frontend/dist/lite/index.html" ]; then
             echo "JupyterLite build failed - index.html not found"
             exit 1
           fi
+          
+          # Verify that notebook files were copied
+          if [ ! -d "apps/frontend/dist/lite/files" ]; then
+            echo "JupyterLite build failed - files directory not found"
+            exit 1
+          fi
+          
           echo "JupyterLite build completed successfully"
+          echo "Files in lite directory:"
+          ls -la apps/frontend/dist/lite/
+          echo "Files in lite/files directory:"
+          ls -la apps/frontend/dist/lite/files/ || echo "No files directory"
 
       - name: Install dependencies
         run: |
