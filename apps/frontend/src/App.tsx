@@ -910,7 +910,7 @@ function App() {
                                       <span>Binder</span>
                                     </a>
                                     <a 
-                                      href={`https://anand-indx.github.io/dp-t25/lite/lab?path=${task.notebookUrl}`}
+                                      href={`https://anand-indx.github.io/dp-t25/lite/lab?path=files/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors text-xs"
