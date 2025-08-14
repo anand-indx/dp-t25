@@ -652,43 +652,43 @@ function App() {
   };
 
   const DashboardView = () => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Dashboard Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+    <div className="min-h-screen bg-gray-50">
+      {/* Dashboard Header - Apple HIG Style */}
+      <header className="bg-white/95 backdrop-blur-xl border-b border-gray-200/60 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setCurrentView('home')}
-                className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 transition-colors"
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors font-medium"
               >
-                <Home className="w-5 h-5" />
-                <span>Back to Home</span>
+                <Home className="w-4 h-4" />
+                <span>Home</span>
               </button>
-              <div className="h-6 border-l border-slate-300"></div>
+              <div className="w-px h-5 bg-gray-300"></div>
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-teal-600 rounded-lg flex items-center justify-center">
-                  <Target className="w-5 h-5 text-white" />
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                  <Target className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-slate-900">Learning Dashboard</h1>
-                  <p className="text-sm text-slate-600">Track your progress through the learning path</p>
+                  <h1 className="text-lg font-semibold text-gray-900 tracking-tight">Learning Dashboard</h1>
+                  <p className="text-xs text-gray-500">Track your progress</p>
                 </div>
               </div>
             </div>
             
-            {/* Progress Overview */}
+            {/* Progress Overview - Compact */}
             <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <Trophy className="w-5 h-5 text-yellow-600" />
-                <span className="text-sm font-medium text-slate-700">
-                  {userProgress.completedTutorials.length}/{tutorials.length} Completed
+              <div className="flex items-center space-x-2 bg-yellow-50 px-3 py-1.5 rounded-lg border border-yellow-200">
+                <Trophy className="w-4 h-4 text-yellow-600" />
+                <span className="text-sm font-medium text-yellow-800">
+                  {userProgress.completedTutorials.length}/{tutorials.length} Complete
                 </span>
               </div>
-              <div className="flex items-center space-x-2">
-                <BarChart3 className="w-5 h-5 text-blue-600" />
-                <span className="text-sm font-medium text-slate-700">
-                  {Math.round(userProgress.totalProgress)}% Progress
+              <div className="flex items-center space-x-2 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200">
+                <BarChart3 className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">
+                  {Math.round(userProgress.totalProgress)}%
                 </span>
               </div>
             </div>
@@ -696,20 +696,34 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-2xl font-bold text-slate-900">Your Learning Journey</h2>
-            <span className="text-sm text-slate-600">
-              {Math.round(userProgress.totalProgress)}% Complete
-            </span>
+      <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Overall Progress Card - Apple HIG Style */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 mb-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 tracking-tight">Your Progress</h2>
+              <p className="text-gray-600">
+                Keep going! You're making excellent progress on your learning journey.
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-4xl font-light text-gray-900 mb-1">
+                {Math.round(userProgress.totalProgress)}%
+              </div>
+              <div className="text-sm text-gray-500 font-medium">Complete</div>
+            </div>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-3">
+          
+          <div className="w-full bg-gray-100 rounded-full h-3 mb-4">
             <div 
-              className="bg-gradient-to-r from-blue-600 to-teal-600 h-3 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 h-3 rounded-full transition-all duration-1000 shadow-sm"
               style={{ width: `${userProgress.totalProgress}%` }}
             ></div>
+          </div>
+          
+          <div className="flex items-center justify-between text-sm text-gray-500">
+            <span>{userProgress.completedTutorials.length} courses completed</span>
+            <span>{tutorials.length - userProgress.completedTutorials.length} remaining</span>
           </div>
         </div>
 
