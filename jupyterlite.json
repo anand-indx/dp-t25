@@ -1,8 +1,13 @@
 {
   "jupyter-lite-schema-version": "0.1.0",
   "jupyter-config-data": {
-    "appName": "Digital Pathology Tutorials",
+    "appName": "Digital Pathology Tutorials - JupyterLite",
+    "appVersion": "0.1.0",
     "defaultKernel": "python",
-    "contents": ["/home/anand/work/dp-t25/jupyterlite_build/content"]
+    "settingsOverrides": {
+      "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Light"
+      }
+    }
   }
 }

@@ -52,7 +52,7 @@ jobs:
       - name: Convert notebooks to HTML
         run: |
           # Convert all notebooks to HTML for static preview
-          find notebooks -name "*.ipynb" -not -path "*/.*" | while read notebook; do
+          find notebooks -name "*.ipynb" -not -path "*/.ipynb_checkpoints/*" | while read notebook; do
             echo "Converting $notebook"
             jupyter nbconvert --to html "$notebook" --output-dir "$(dirname "$notebook")/html/"
           done
