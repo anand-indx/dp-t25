@@ -12,6 +12,7 @@ dependencies:
   - tqdm
   - requests
   - jupyterlab
+  - notebook
   - ipywidgets
   - plotly
   - pip
