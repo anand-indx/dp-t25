@@ -878,7 +878,7 @@ function App() {
                                       <span>View</span>
                                     </a>
                                     <a 
-                                      href={`https://colab.research.google.com/github/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
+                                      href={`https://colab.research.google.com/?url=${encodeURIComponent('https://anand-indx.github.io/dp-t25/lite/files/' + task.notebookUrl)}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-600 transition-colors text-xs"
