@@ -894,7 +894,7 @@ function App() {
                                       <span>Colab</span>
                                     </a>
                                     <a 
-                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?filepath=apps/frontend/public/lite/files/${task.notebookUrl}`}
+                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?labpath=apps/frontend/public/lite/files/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-pink-500 text-white px-2 py-1 rounded-md hover:bg-pink-600 transition-colors text-xs"
