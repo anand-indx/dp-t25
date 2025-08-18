@@ -10,3 +10,5 @@ requests==2.31.0
 jupyterlab==4.0.5
 ipywidgets==8.0.7
 plotly==5.15.0
+
+openslide-python
