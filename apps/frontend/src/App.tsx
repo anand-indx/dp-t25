@@ -867,7 +867,7 @@ function App() {
                                 {IS_GITHUB_PAGES ? (
                                   <div className="flex flex-wrap items-center gap-2">
                                     <a 
-                                      href={`https://github.com/anand-indx/dp-t25/blob/main/${task.notebookUrl}`}
+                                      href={`https://github.com/anand-indx/dp-t25/blob/main/apps/frontend/public/lite/files/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-slate-600 text-white px-2 py-1 rounded-md hover:bg-slate-700 transition-colors text-xs"
@@ -878,7 +878,7 @@ function App() {
                                       <span>View</span>
                                     </a>
                                     <a 
-                                      href={`https://colab.research.google.com/?url=${encodeURIComponent('https://anand-indx.github.io/dp-t25/lite/files/' + task.notebookUrl)}`}
+                                      href={`https://colab.research.google.com/?url=${encodeURIComponent('https://raw.githubusercontent.com/anand-indx/dp-t25/main/apps/frontend/public/lite/files/' + task.notebookUrl)}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-600 transition-colors text-xs"
@@ -894,7 +894,7 @@ function App() {
                                       <span>Colab</span>
                                     </a>
                                     <a 
-                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?filepath=${task.notebookUrl}`}
+                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?filepath=apps/frontend/public/lite/files/${task.notebookUrl}`}
                                       target="_blank" 
                                       rel="noopener noreferrer"
                                       className="inline-flex items-center space-x-1 bg-pink-500 text-white px-2 py-1 rounded-md hover:bg-pink-600 transition-colors text-xs"
