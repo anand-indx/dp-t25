@@ -35,3 +35,9 @@ ipython>=8.10.0
 # Optional but useful
 tqdm>=4.64.0
 h5py>=3.8.0
+
+# Deep learning and FMs
+torch>=2.2.0
+torchvision>=0.17.0
+timm>=1.0.3
+open_clip_torch>=2.26.1

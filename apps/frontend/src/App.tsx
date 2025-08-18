@@ -144,6 +144,8 @@ const tutorials: Tutorial[] = [
   { name: 'Implement data augmentation pipeline', notebookUrl: 'deep-learning-tutorials/notebooks/02_data_augmentation.ipynb', estimatedTime: '45 min' },
   { name: 'Train deep learning models', notebookUrl: 'deep-learning-tutorials/notebooks/03_model_training.ipynb', estimatedTime: '90 min' },
   { name: 'Optimize hyperparameters and evaluate', notebookUrl: 'deep-learning-tutorials/notebooks/04_hyperparameter_optimization.ipynb', estimatedTime: '75 min' },
+  { name: 'Explainability with Grad-CAM', notebookUrl: 'deep-learning-tutorials/notebooks/05_explainability_gradcam.ipynb', estimatedTime: '45 min' },
+  { name: 'Multiple Instance Learning (MIL)', notebookUrl: 'deep-learning-tutorials/notebooks/06_multiple_instance_learning_mil.ipynb', estimatedTime: '60 min' },
   { name: '🎯 Deep Learning Assessment', notebookUrl: 'deep-learning-tutorials/notebooks/test_deep_learning.ipynb', estimatedTime: '60 min' }
     ],
     datasets: [
@@ -165,13 +167,11 @@ const tutorials: Tutorial[] = [
     id: 'whole-slide-analysis',
     title: 'Whole Slide Image Analysis',
     level: 'Advanced',
-  description: 'Learning large-scale histopathology image processing using tiling, stitching, and multi-resolution analysis techniques.',
+  description: 'Learning large-scale histopathology image processing using tiling, patch extraction, and heatmap aggregation.',
     tasks: [
-  { name: 'QuPath integration and scripting', notebookUrl: 'wsi-tutorials/notebooks/01_qupath_integration.ipynb', estimatedTime: '80 min' },
-  { name: 'Multi-scale tissue segmentation', notebookUrl: 'wsi-tutorials/notebooks/02_tissue_segmentation.ipynb', estimatedTime: '90 min' },
-  { name: 'Annotation tools and ground truth creation', notebookUrl: 'wsi-tutorials/notebooks/03_annotation_tools.ipynb', estimatedTime: '70 min' },
-  { name: 'Spatial analysis and morphometry', notebookUrl: 'wsi-tutorials/notebooks/04_spatial_morphometry.ipynb', estimatedTime: '85 min' },
-  { name: '🎯 WSI Analysis Expertise Test', notebookUrl: 'wsi-tutorials/notebooks/test_wsi_analysis.ipynb', estimatedTime: '75 min' }
+  { name: 'Read and visualize a WSI', notebookUrl: 'wsi-tutorials/notebooks/01_read_visualize_wsi.ipynb', estimatedTime: '40 min' },
+  { name: 'Patch extraction from WSI', notebookUrl: 'wsi-tutorials/notebooks/02_patch_extraction.ipynb', estimatedTime: '50 min' },
+  { name: 'Heatmap overlay from patch predictions', notebookUrl: 'wsi-tutorials/notebooks/03_heatmap_overlay.ipynb', estimatedTime: '45 min' }
     ],
     datasets: [
       { 
@@ -199,11 +199,10 @@ const tutorials: Tutorial[] = [
     level: 'Advanced',
     description: 'Build end-to-end computational pathology workflows including preprocessing, analysis, and clinical integration.',
     tasks: [
-      { name: 'TIAToolbox and HistoLab integration', notebookUrl: 'comp-pathology-tutorials/notebooks/01_toolbox_integration.ipynb', estimatedTime: '75 min' },
-      { name: 'Stain normalization and color deconvolution', notebookUrl: 'comp-pathology-tutorials/notebooks/02_stain_normalization.ipynb', estimatedTime: '60 min' },
-      { name: 'Cell detection and nuclei segmentation', notebookUrl: 'comp-pathology-tutorials/notebooks/03_cell_detection.ipynb', estimatedTime: '95 min' },
-      { name: 'Biomarker quantification pipelines', notebookUrl: 'comp-pathology-tutorials/notebooks/04_biomarker_quantification.ipynb', estimatedTime: '80 min' },
-  { name: '🎯 Computational Pathology Learning Assessment', notebookUrl: 'comp-pathology-tutorials/notebooks/test_comp_pathology.ipynb', estimatedTime: '70 min' }
+      { name: 'WSI tiling with OpenSlide', notebookUrl: 'comp-pathology-tutorials/notebooks/01_wsi_tiling_openslide.ipynb', estimatedTime: '60 min' },
+      { name: 'Stain normalization (Macenko/Vahadane)', notebookUrl: 'comp-pathology-tutorials/notebooks/02_stain_normalization_macenko_vahadane.ipynb', estimatedTime: '60 min' },
+      { name: 'Nuclei segmentation (TIAToolbox)', notebookUrl: 'comp-pathology-tutorials/notebooks/03_nuclei_segmentation_tiatoolbox.ipynb', estimatedTime: '90 min' },
+      { name: 'Slide-level MIL (intro)', notebookUrl: 'comp-pathology-tutorials/notebooks/04_slide_level_MIL_intro.ipynb', estimatedTime: '70 min' }
     ],
     datasets: [
       { 
@@ -228,14 +227,12 @@ const tutorials: Tutorial[] = [
   {
     id: 'foundation-models',
     title: 'Foundation Models in Pathology',
-    level: 'Expert',
-    description: 'Explore state-of-the-art foundation models like UNI, CONCH, and CLAM for pathology-specific tasks.',
+    level: 'Advanced',
+    description: 'Use pre-trained backbones, zero-shot models, and promptable segmenters in pathology.',
     tasks: [
-      { name: 'Pre-trained pathology encoders (UNI, CONCH)', notebookUrl: 'foundation-models-tutorials/notebooks/01_pretrained_encoders.ipynb', estimatedTime: '90 min' },
-      { name: 'Multiple Instance Learning (MIL) frameworks', notebookUrl: 'foundation-models-tutorials/notebooks/02_mil_frameworks.ipynb', estimatedTime: '120 min' },
-      { name: 'Self-supervised learning techniques', notebookUrl: 'foundation-models-tutorials/notebooks/03_self_supervised.ipynb', estimatedTime: '100 min' },
-      { name: 'Vision-language models for pathology', notebookUrl: 'foundation-models-tutorials/notebooks/04_vision_language_models.ipynb', estimatedTime: '110 min' },
-      { name: '🎯 Foundation Models Excellence Test', notebookUrl: 'foundation-models-tutorials/notebooks/test_foundation_models.ipynb', estimatedTime: '80 min' }
+      { name: 'Overview of foundation models', notebookUrl: 'foundation-models-tutorials/notebooks/01_foundation_models_overview.ipynb', estimatedTime: '20 min' },
+      { name: 'Feature extraction with timm (ResNet/ViT)', notebookUrl: 'foundation-models-tutorials/notebooks/02_feature_extraction_timm_histology.ipynb', estimatedTime: '45 min' },
+      { name: 'Zero-shot labeling with OpenCLIP', notebookUrl: 'foundation-models-tutorials/notebooks/03_zero_shot_clip_histology.ipynb', estimatedTime: '45 min' }
     ],
     datasets: [
       { 
@@ -260,14 +257,10 @@ const tutorials: Tutorial[] = [
   {
     id: 'spatial-analysis',
     title: 'Spatial Transcriptomics & Pathology',
-    level: 'Expert',
+    level: 'Advanced',
     description: 'Integrate spatial transcriptomics data with histopathology images for multi-modal analysis.',
     tasks: [
-      { name: 'Spatial transcriptomics data processing', notebookUrl: 'spatial-tutorials/notebooks/01_spatial_data_processing.ipynb', estimatedTime: '85 min' },
-      { name: 'Image-omics data fusion techniques', notebookUrl: 'spatial-tutorials/notebooks/02_image_omics_fusion.ipynb', estimatedTime: '95 min' },
-      { name: 'Spatial clustering and neighborhood analysis', notebookUrl: 'spatial-tutorials/notebooks/03_spatial_clustering.ipynb', estimatedTime: '100 min' },
-      { name: 'Survival analysis with spatial features', notebookUrl: 'spatial-tutorials/notebooks/04_survival_analysis.ipynb', estimatedTime: '110 min' },
-  { name: '🎯 Spatial Multi-omics Learning Assessment', notebookUrl: 'spatial-tutorials/notebooks/test_spatial_analysis.ipynb', estimatedTime: '90 min' }
+      { name: 'Spatial transcriptomics basics', notebookUrl: 'spatial-tutorials/notebooks/01_spatial_transcriptomics_basics.ipynb', estimatedTime: '40 min' }
     ],
     datasets: [
       { 

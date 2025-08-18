@@ -1,5 +1,6 @@
 name: pathology-tutorials
 channels:
+  - pytorch
   - conda-forge
 dependencies:
   - python=3.11
@@ -8,6 +9,7 @@ dependencies:
   - matplotlib
   - seaborn
   - scikit-learn
+  - scikit-image
   - pillow
   - tqdm
   - requests
@@ -15,6 +17,9 @@ dependencies:
   - notebook
   - ipywidgets
   - plotly
+  - pytorch
+  - torchvision
+  - cpuonly
   - openslide
   - openslide-python
   - pip
