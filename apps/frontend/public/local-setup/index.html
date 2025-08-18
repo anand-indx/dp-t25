@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Local Setup • Digital Pathology Tutorials</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; margin: 0; padding: 0; background: #f8fafc; color: #0f172a; }
+      .wrap { max-width: 840px; margin: 0 auto; padding: 24px; }
+      .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+      h1 { font-size: 24px; margin: 0 0 12px; }
+      h2 { font-size: 18px; margin: 20px 0 8px; }
+      p { line-height: 1.6; }
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+      pre { background: #0b1020; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow-x: auto; }
+      .note { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 10px 12px; border-radius: 8px; }
+      .ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 10px 12px; border-radius: 8px; }
+      a { color: #2563eb; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .steps { margin: 0; padding-left: 18px; }
+      .mt { margin-top: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Run Notebooks Locally</h1>
+      <div class="card">
+        <p>Two quick ways to run the tutorials on your computer. After you start one of these, return to the site and click <strong>Local</strong> on any task to open it instantly.</p>
+
+        <h2>Option A — Docker (Recommended)</h2>
+        <ol class="steps">
+          <li>Install <a href="https://docs.docker.com/get-docker/" target="_blank" rel="noreferrer noopener">Docker Desktop</a>.</li>
+          <li>Clone the repository:</li>
+        </ol>
+        <pre><code>git clone https://github.com/anand-indx/dp-t25.git
+cd dp-t25</code></pre>
+        <ol class="steps" start="3">
+          <li>Start Jupyter with Docker Compose:</li>
+        </ol>
+        <pre><code>./start.sh</code></pre>
+        <p class="ok">This builds the environment once and serves JupyterLab on <code>http://localhost:8888</code>. Next runs are fast.</p>
+
+        <h2 class="mt">Option B — Conda/Python</h2>
+        <ol class="steps">
+          <li>Install <a href="https://www.anaconda.com/download" target="_blank" rel="noreferrer noopener">Anaconda/Miniconda</a> or Python 3.11.</li>
+          <li>Clone the repository and create the environment:</li>
+        </ol>
+        <pre><code>git clone https://github.com/anand-indx/dp-t25.git
+cd dp-t25
+conda env create -f environment.yml
+conda activate pathology-tutorials</code></pre>
+        <ol class="steps" start="3">
+          <li>Launch JupyterLab:</li>
+        </ol>
+        <pre><code>jupyter lab --NotebookApp.token='' --NotebookApp.password=''</code></pre>
+        <p class="note">If <code>conda</code> is unavailable, use: <code>python -m venv .venv &amp;&amp; source .venv/bin/activate &amp;&amp; pip install -r requirements.txt</code></p>
+
+        <h2 class="mt">Next Steps</h2>
+        <p>Once JupyterLab is running, go back to the tutorials website and click <strong>Local</strong> to open any notebook. You can also visit <a href="http://localhost:8888/lab" target="_blank" rel="noreferrer noopener">http://localhost:8888/lab</a>.</p>
+      </div>
+      <p class="mt"><a href="../">← Back</a></p>
+    </div>
+  </body>
+  </html>

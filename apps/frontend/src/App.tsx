@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, ExternalLink, Play, Lock, Trophy, BarChart3, Home, Target, Clock } from 'lucide-react';
 
 // Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
-const IS_GITHUB_PAGES = window.location.hostname === 'anand-indx.github.io' || import.meta.env.PROD;
+const BASE_URL: string = import.meta.env.BASE_URL || '/';
+// Treat *.github.io as GitHub Pages; avoids mis-detecting during local preview
+const IS_GITHUB_PAGES = typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
 
 interface Task {
   name: string;
@@ -573,6 +575,11 @@ function App() {
     currentTutorial: null,
     totalProgress: 0
   });
+  const [localJupyterAvailable, setLocalJupyterAvailable] = useState<'unknown' | 'yes' | 'no'>('unknown');
+  const [showLocalHelp, setShowLocalHelp] = useState(false);
+  const [localStarting, setLocalStarting] = useState(false);
+  const [localReady, setLocalReady] = useState(false);
+  const [runningNotebook, setRunningNotebook] = useState<string | null>(null);
 
   // Load user progress from localStorage
   useEffect(() => {
@@ -581,6 +588,82 @@ function App() {
       setUserProgress(JSON.parse(savedProgress));
     }
   }, []);
+
+  // Try to detect a local JupyterLab server to enable one-click local launch from GitHub Pages
+  useEffect(() => {
+    let didCancel = false;
+    if (!IS_GITHUB_PAGES) return; // only relevant on the hosted site
+
+    const check = async () => {
+      // Use a short timeout and no-cors; success implies port is accepting connections
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 1500);
+      try {
+        await fetch(`${JUPYTER_BASE_URL}/api`, { mode: 'no-cors', signal: controller.signal });
+        if (!didCancel) setLocalJupyterAvailable('yes');
+      } catch {
+        if (!didCancel) setLocalJupyterAvailable('no');
+      } finally {
+        clearTimeout(t);
+      }
+    };
+    check();
+    return () => { didCancel = true; };
+  }, []);
+
+  // Poll local-agent status if starting
+  useEffect(() => {
+    let timer: number | undefined;
+    const poll = async () => {
+      try {
+        const r = await fetch('http://127.0.0.1:5321/status', { cache: 'no-store' });
+        const j = await r.json();
+        if (j.ready) {
+          setLocalReady(true);
+          setLocalJupyterAvailable('yes');
+          if (timer) window.clearInterval(timer);
+        }
+      } catch {}
+    };
+    if (localStarting) {
+      poll();
+      timer = window.setInterval(poll, 1500) as unknown as number;
+    }
+    return () => { if (timer) window.clearInterval(timer); };
+  }, [localStarting]);
+
+  // Poll per-notebook session state when a notebook has been launched
+  useEffect(() => {
+    if (!runningNotebook) return;
+    let timer: number | undefined;
+    const poll = async () => {
+      try {
+        const u = new URL('http://127.0.0.1:5321/session');
+        u.searchParams.set('path', `notebooks/${runningNotebook}`);
+        const r = await fetch(u.toString(), { cache: 'no-store' });
+        const j = await r.json();
+        if (j.running) {
+          // Once confirmed running, stop polling
+          if (timer) window.clearInterval(timer);
+        }
+      } catch {}
+    };
+    poll();
+    timer = window.setInterval(poll, 2000) as unknown as number;
+    return () => { if (timer) window.clearInterval(timer); };
+  }, [runningNotebook]);
+
+  const startLocalViaAgent = async () => {
+    try {
+      setLocalStarting(true);
+      await fetch('http://127.0.0.1:5321/start', { method: 'POST' });
+    } catch {
+      // Agent not running; show help and fallback to local-launch page
+      setShowLocalHelp(true);
+    }
+  };
+
+  // Local launch now handled by a static page that polls Jupyter and redirects
 
   // Save user progress to localStorage
   const saveProgress = (progress: UserProgress) => {
@@ -864,70 +947,76 @@ function App() {
                                   </span>
                                 )}
                                 
-                                {IS_GITHUB_PAGES ? (
-                                  <div className="flex flex-wrap items-center gap-2">
-                                    <a 
-                                      href={`https://github.com/anand-indx/dp-t25/blob/main/apps/frontend/public/lite/files/${task.notebookUrl}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-slate-600 text-white px-2 py-1 rounded-md hover:bg-slate-700 transition-colors text-xs"
-                                      onClick={(e) => e.stopPropagation()}
-                                      title="View notebook source on GitHub"
-                                    >
-                                      <Github className="w-3 h-3" />
-                                      <span>View</span>
-                                    </a>
-                                    <a 
-                                      href={`https://colab.research.google.com/?url=${encodeURIComponent('https://raw.githubusercontent.com/anand-indx/dp-t25/main/apps/frontend/public/lite/files/' + task.notebookUrl)}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-600 transition-colors text-xs"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!taskCompleted) {
-                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
-                                        }
-                                      }}
-                                      title="Open in Google Colab (recommended)"
-                                    >
-                                      <ExternalLink className="w-3 h-3" />
-                                      <span>Colab</span>
-                                    </a>
-                                    <a 
-                                      href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?labpath=apps/frontend/public/lite/files/${task.notebookUrl}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center space-x-1 bg-pink-500 text-white px-2 py-1 rounded-md hover:bg-pink-600 transition-colors text-xs"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!taskCompleted) {
-                                          setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
-                                        }
-                                      }}
-                                      title="Launch in Binder (free cloud environment)"
-                                    >
-                                      <Play className="w-3 h-3" />
-                                      <span>Binder</span>
-                                    </a>
-                                  </div>
-                                ) : (
+                                <div className="flex flex-wrap items-center gap-2">
+                                  {/* View on GitHub */}
                                   <a 
-                                    href={`${JUPYTER_BASE_URL}/lab/tree/${task.notebookUrl}`}
+                                    href={`https://github.com/anand-indx/dp-t25/blob/main/notebooks/${task.notebookUrl}`}
                                     target="_blank" 
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center space-x-1 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 transition-colors text-sm"
+                                    className="inline-flex items-center space-x-1 bg-slate-600 text-white px-2 py-1 rounded-md hover:bg-slate-700 transition-colors text-xs"
+                                    onClick={(e) => e.stopPropagation()}
+                                    title="View notebook source on GitHub"
+                                  >
+                                    <Github className="w-3 h-3" />
+                                    <span>View</span>
+                                  </a>
+
+                                  {/* Colab */}
+                                  <a 
+                                    href={`https://colab.research.google.com/github/anand-indx/dp-t25/blob/main/notebooks/${task.notebookUrl}`}
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center space-x-1 bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-600 transition-colors text-xs"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       if (!taskCompleted) {
                                         setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
                                       }
                                     }}
+                                    title="Open in Google Colab"
+                                  >
+                                    <ExternalLink className="w-3 h-3" />
+                                    <span>Colab</span>
+                                  </a>
+
+                                  {/* Binder */}
+                                  <a 
+                                    href={`https://mybinder.org/v2/gh/anand-indx/dp-t25/main?labpath=${encodeURIComponent('notebooks/' + task.notebookUrl)}`}
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center space-x-1 bg-pink-500 text-white px-2 py-1 rounded-md hover:bg-pink-600 transition-colors text-xs"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (!taskCompleted) {
+                                        setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                      }
+                                    }}
+                                    title="Launch in Binder"
                                   >
                                     <Play className="w-3 h-3" />
-                                    <span>Start</span>
-                                    <ExternalLink className="w-3 h-3" />
+                                    <span>Binder</span>
                                   </a>
-                                )}
+
+                                  {/* Local auto-launch: try agent first, fallback to helper page */}
+                                  <button
+                                    onClick={async (e) => {
+                                      e.stopPropagation();
+                                      // Trigger agent; if not available, help modal will show
+                                      await startLocalViaAgent();
+                                      // Always open helper page, which redirects when Jupyter is ready
+                                      window.open(`${BASE_URL}local-launch/?path=${encodeURIComponent(task.notebookUrl)}`, '_blank', 'noopener,noreferrer');
+                                      setRunningNotebook(task.notebookUrl);
+                                      if (!taskCompleted) {
+                                        setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
+                                      }
+                                    }}
+                                    className={`inline-flex items-center space-x-1 px-2 py-1 rounded-md transition-colors text-xs ${localReady ? 'bg-green-600 text-white' : localStarting ? 'bg-yellow-500 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200'}`}
+                                    title={localReady ? 'Local Jupyter ready' : localStarting ? 'Starting Docker locally…' : 'Start local Docker/Jupyter and open when ready'}
+                                  >
+                                    <Play className="w-3 h-3" />
+                                    <span>Local</span>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           );
@@ -1071,7 +1160,7 @@ function App() {
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
                 <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                   <Github className="w-6 h-6 text-gray-700" />
@@ -1102,6 +1191,16 @@ function App() {
                 <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Binder</h4>
                 <p className="text-sm text-gray-600 text-center leading-relaxed">
                   Free cloud environment. Takes 1-2 minutes to launch but fully interactive.
+                </p>
+              </div>
+
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200">
+                <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                  <Play className="w-6 h-6 text-green-600" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Local</h4>
+                <p className="text-sm text-gray-600 text-center leading-relaxed">
+                  Runs instantly using your local JupyterLab. {localJupyterAvailable === 'yes' ? 'Detected ✅' : localJupyterAvailable === 'no' ? 'Not detected' : 'Checking…'}
                 </p>
               </div>
               
@@ -1285,8 +1384,13 @@ function App() {
                   <div className="p-6">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {resourceCategory.items.map((item, itemIndex) => {
-                        const isLocked = item.unlockAfter && !userProgress.completedTutorials.some(id => 
-                          item.unlockAfter?.toLowerCase().includes(id.replace('-', ' '))
+                        // Safely read optional fields from heterogeneous resource items
+                        const unlockAfterText = (item as any)?.unlockAfter as string | undefined;
+                        const sizeText = (item as any)?.size as string | undefined;
+                        const usedInArr = (item as any)?.usedIn as string[] | undefined;
+
+                        const isLocked = !!unlockAfterText && !userProgress.completedTutorials.some(id => 
+                          unlockAfterText.toLowerCase().includes(id.replace('-', ' '))
                         );
                         
                         return (
@@ -1312,14 +1416,14 @@ function App() {
                                 
                                 {/* Additional Info */}
                                 <div className="flex flex-wrap gap-2 mb-3">
-                                  {item.size && (
+                  {sizeText && (
                                     <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">
-                                      📦 {item.size}
+                    📦 {sizeText}
                                     </span>
                                   )}
-                                  {item.usedIn && (
+                  {usedInArr && (
                                     <span className="text-xs bg-yellow-50 text-yellow-700 px-2 py-1 rounded">
-                                      🎯 Used in: {item.usedIn.join(', ')}
+                    🎯 Used in: {usedInArr.join(', ')}
                                     </span>
                                   )}
                                   {item.type && (
@@ -1339,9 +1443,9 @@ function App() {
                             </div>
                             
                             {/* Action Button or Status */}
-                            {isLocked ? (
+              {isLocked ? (
                               <div className="text-xs text-slate-500 italic">
-                                🔒 {item.unlockAfter}
+                🔒 {unlockAfterText}
                               </div>
                             ) : item.type === 'auto' ? (
                               <div className="flex items-center text-green-600 text-sm font-medium">
@@ -1438,6 +1542,28 @@ function App() {
           </p>
         </footer>
       </main>
+      {IS_GITHUB_PAGES && showLocalHelp && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={() => setShowLocalHelp(false)}>
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">Start Local JupyterLab</h3>
+            <p className="text-sm text-gray-700 mb-3">To open notebooks locally from this website, run one of the following:</p>
+            <ol className="list-decimal ml-5 text-sm text-gray-700 space-y-2 mb-4">
+              <li>
+                Using Docker (recommended):<br/>
+                <code className="bg-gray-100 px-2 py-1 rounded inline-block mt-1">./start.sh</code>
+              </li>
+              <li>
+                Or with Conda/Pip:<br/>
+                <span className="block bg-gray-100 px-2 py-1 rounded mt-1">conda env create -f environment.yml && conda activate pathology-tutorials && jupyter lab --NotebookApp.token='' --NotebookApp.password=''</span>
+              </li>
+            </ol>
+            <div className="text-sm text-gray-600">Once JupyterLab is running on <span className="font-mono">http://localhost:8888</span>, click Docker again. See the <a className="text-blue-600 hover:text-blue-800" href={`${BASE_URL}local-setup/`} target="_blank" rel="noopener noreferrer">Local setup guide</a> for full steps.</div>
+            <div className="mt-4 text-right">
+              <button onClick={() => setShowLocalHelp(false)} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Got it</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 

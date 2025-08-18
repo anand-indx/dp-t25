@@ -15,8 +15,8 @@ dependencies:
   - notebook
   - ipywidgets
   - plotly
+  - openslide
+  - openslide-python
   - pip
   - pip:
     - opencv-python
-  - openslide-python
-  - openslide
