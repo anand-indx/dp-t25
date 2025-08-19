@@ -3,7 +3,7 @@ import { BookOpen, Github, Database, CheckCircle, ArrowRight, Microscope, Extern
 
 // Get JupyterLab URL from environment - for GitHub Pages, we'll show repository links instead
 const JUPYTER_BASE_URL = import.meta.env.VITE_JUPYTER_URL || 'http://localhost:8888';
-const BASE_URL: string = import.meta.env.BASE_URL || '/';
+// const BASE_URL: string = import.meta.env.BASE_URL || '/';
 // Treat *.github.io as GitHub Pages; avoids mis-detecting during local preview
 const IS_GITHUB_PAGES = typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
 
@@ -568,10 +568,6 @@ function App() {
     currentTutorial: null,
     totalProgress: 0
   });
-  const [localJupyterAvailable, setLocalJupyterAvailable] = useState<'unknown' | 'yes' | 'no'>('unknown');
-  const [showLocalHelp, setShowLocalHelp] = useState(false);
-  const [localStarting, setLocalStarting] = useState(false);
-  const [localReady, setLocalReady] = useState(false);
   const [runningNotebook, setRunningNotebook] = useState<string | null>(null);
 
   // Load user progress from localStorage
@@ -582,81 +578,14 @@ function App() {
     }
   }, []);
 
-  // Try to detect a local JupyterLab server to enable one-click local launch from GitHub Pages
-  useEffect(() => {
-    let didCancel = false;
-    if (!IS_GITHUB_PAGES) return; // only relevant on the hosted site
-
-    const check = async () => {
-      // Use a short timeout and no-cors; success implies port is accepting connections
-      const controller = new AbortController();
-      const t = setTimeout(() => controller.abort(), 1500);
-      try {
-        await fetch(`${JUPYTER_BASE_URL}/api`, { mode: 'no-cors', signal: controller.signal });
-        if (!didCancel) setLocalJupyterAvailable('yes');
-      } catch {
-        if (!didCancel) setLocalJupyterAvailable('no');
-      } finally {
-        clearTimeout(t);
-      }
-    };
-    check();
-    return () => { didCancel = true; };
-  }, []);
-
-  // Poll local-agent status if starting
-  useEffect(() => {
-    let timer: number | undefined;
-    const poll = async () => {
-      try {
-        const r = await fetch('http://127.0.0.1:5321/status', { cache: 'no-store' });
-        const j = await r.json();
-        if (j.ready) {
-          setLocalReady(true);
-          setLocalJupyterAvailable('yes');
-          if (timer) window.clearInterval(timer);
-        }
-      } catch {}
-    };
-    if (localStarting) {
-      poll();
-      timer = window.setInterval(poll, 1500) as unknown as number;
-    }
-    return () => { if (timer) window.clearInterval(timer); };
-  }, [localStarting]);
-
-  // Poll per-notebook session state when a notebook has been launched
+  // Poll per-notebook session state when a notebook has been launched (placeholder; can be extended if needed)
   useEffect(() => {
     if (!runningNotebook) return;
-    let timer: number | undefined;
-    const poll = async () => {
-      try {
-        const u = new URL('http://127.0.0.1:5321/session');
-        u.searchParams.set('path', `notebooks/${runningNotebook}`);
-        const r = await fetch(u.toString(), { cache: 'no-store' });
-        const j = await r.json();
-        if (j.running) {
-          // Once confirmed running, stop polling
-          if (timer) window.clearInterval(timer);
-        }
-      } catch {}
-    };
-    poll();
-    timer = window.setInterval(poll, 2000) as unknown as number;
-    return () => { if (timer) window.clearInterval(timer); };
+    // No-op: direct open to Jupyter, nothing to poll without a local agent.
+    return () => {};
   }, [runningNotebook]);
 
-  const startLocalViaAgent = async () => {
-    try {
-      setLocalStarting(true);
-      await fetch('http://127.0.0.1:5321/start', { method: 'POST' });
-    } catch {
-      // Agent not running; show help and fallback to local-launch page
-      setShowLocalHelp(true);
-    }
-  };
-
-  // Local launch now handled by a static page that polls Jupyter and redirects
+  // Local launch handled by direct open to the configured Jupyter URL
 
   // Save user progress to localStorage
   const saveProgress = (progress: UserProgress) => {
@@ -990,21 +919,21 @@ function App() {
                                     <span>Binder</span>
                                   </a>
 
-                                  {/* Local auto-launch: try agent first, fallback to helper page */}
+                                  {/* Local: open directly in local JupyterLab */}
                                   <button
                                     onClick={async (e) => {
                                       e.stopPropagation();
-                                      // Trigger agent; if not available, help modal will show
-                                      await startLocalViaAgent();
-                                      // Always open helper page, which redirects when Jupyter is ready
-                                      window.open(`${BASE_URL}local-launch/?path=${encodeURIComponent(task.notebookUrl)}`, '_blank', 'noopener,noreferrer');
+                                      // If running from GitHub Pages, avoid calling any local HTTP probes (blocked as mixed content)
+                                      // and just open the local Jupyter URL directly. Users should have started Jupyter (./start.sh).
+                                      const target = `${JUPYTER_BASE_URL}/lab/tree/notebooks/${encodeURI(task.notebookUrl)}`;
+                                      window.open(target, '_blank', 'noopener,noreferrer');
                                       setRunningNotebook(task.notebookUrl);
                                       if (!taskCompleted) {
                                         setTimeout(() => markTaskCompleted(tutorial.id, taskIndex), 1000);
                                       }
                                     }}
-                                    className={`inline-flex items-center space-x-1 px-2 py-1 rounded-md transition-colors text-xs ${localReady ? 'bg-green-600 text-white' : localStarting ? 'bg-yellow-500 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200'}`}
-                                    title={localReady ? 'Local Jupyter ready' : localStarting ? 'Starting Docker locally…' : 'Start local Docker/Jupyter and open when ready'}
+                                    className={"inline-flex items-center space-x-1 px-2 py-1 rounded-md transition-colors text-xs bg-green-100 text-green-800 hover:bg-green-200"}
+                                    title={'Opens in your local JupyterLab at ' + JUPYTER_BASE_URL + '. Make sure it is running (./start.sh).'}
                                   >
                                     <Play className="w-3 h-3" />
                                     <span>Local</span>
@@ -1193,7 +1122,7 @@ function App() {
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-3 text-center">Local</h4>
                 <p className="text-sm text-gray-600 text-center leading-relaxed">
-                  Runs instantly using your local JupyterLab. {localJupyterAvailable === 'yes' ? 'Detected ✅' : localJupyterAvailable === 'no' ? 'Not detected' : 'Checking…'}
+                  Runs using your local JupyterLab. Start it via <code className="bg-gray-100 px-1 rounded">./start.sh</code>, then click <strong>Local</strong> on any task.
                 </p>
               </div>
               
@@ -1535,28 +1464,7 @@ function App() {
           </p>
         </footer>
       </main>
-      {IS_GITHUB_PAGES && showLocalHelp && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={() => setShowLocalHelp(false)}>
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Start Local JupyterLab</h3>
-            <p className="text-sm text-gray-700 mb-3">To open notebooks locally from this website, run one of the following:</p>
-            <ol className="list-decimal ml-5 text-sm text-gray-700 space-y-2 mb-4">
-              <li>
-                Using Docker (recommended):<br/>
-                <code className="bg-gray-100 px-2 py-1 rounded inline-block mt-1">./start.sh</code>
-              </li>
-              <li>
-                Or with Conda/Pip:<br/>
-                <span className="block bg-gray-100 px-2 py-1 rounded mt-1">conda env create -f environment.yml && conda activate pathology-tutorials && jupyter lab --NotebookApp.token='' --NotebookApp.password=''</span>
-              </li>
-            </ol>
-            <div className="text-sm text-gray-600">Once JupyterLab is running on <span className="font-mono">http://localhost:8888</span>, click Docker again. See the <a className="text-blue-600 hover:text-blue-800" href={`${BASE_URL}local-setup/`} target="_blank" rel="noopener noreferrer">Local setup guide</a> for full steps.</div>
-            <div className="mt-4 text-right">
-              <button onClick={() => setShowLocalHelp(false)} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Got it</button>
-            </div>
-          </div>
-        </div>
-      )}
+  {/* Local help modal removed for a leaner UI */}
     </div>
   );
 

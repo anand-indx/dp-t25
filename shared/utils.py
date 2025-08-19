@@ -150,6 +150,149 @@ def get_data_dir(preferred_subdir: str = 'dp-t25', subfolder: str = 'data', auto
 # -----------------------------
 # Sample data preparation
 # -----------------------------
+def _tqdm():
+    try:
+        from tqdm import tqdm  # type: ignore
+        return tqdm
+    except Exception:
+        return None
+
+def download_file_with_progress(url: str, dst: Path, description: str = "Downloading") -> bool:
+    """Download a URL to a destination path with a progress bar when possible.
+
+    Returns True on success, False otherwise. Creates parent directories.
+    """
+    try:
+        import requests  # type: ignore
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        with requests.get(url, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            total = int(r.headers.get('content-length', 0))
+            pbar_cls = _tqdm()
+            if pbar_cls:
+                pbar = pbar_cls(total=total, unit='B', unit_scale=True, desc=description)
+            else:
+                pbar = None
+            with open(dst, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        if pbar:
+                            pbar.update(len(chunk))
+            if pbar:
+                pbar.close()
+        print(f"✅ Downloaded {url} -> {dst}")
+        return True
+    except Exception as e:
+        print(f"❌ Failed to download {url} -> {dst}: {e}")
+        return False
+
+def download_zenodo_record(record_id: str, data_dir: Path, filename_filter: Optional[str] = None, extract: bool = True) -> List[Path]:
+    """Download files from a Zenodo record into data_dir.
+
+    - record_id: the numeric Zenodo record id (e.g., '1234567').
+    - filename_filter: optional substring or glob-like filter to select files.
+    - extract: if True, extract any downloaded .zip archives into a 'tiles' subfolder.
+    Returns list of downloaded file paths (and extracted dir if applicable).
+    """
+    downloaded: List[Path] = []
+    try:
+        import fnmatch
+        import requests  # type: ignore
+        import zipfile
+        import io
+
+        api_url = f"https://zenodo.org/api/records/{record_id}"
+        resp = requests.get(api_url, timeout=60)
+        resp.raise_for_status()
+        data = resp.json()
+        files = data.get('files') or []
+        if not files and 'hits' in data:
+            # Newer API variant returns search hits
+            hits = data.get('hits', {}).get('hits', [])
+            if hits:
+                files = hits[0].get('files', [])
+        if not files:
+            print(f"⚠️ No files found for Zenodo record {record_id}")
+            return downloaded
+
+        def match(name: str) -> bool:
+            if not filename_filter:
+                return True
+            # simple glob or substring
+            return fnmatch.fnmatch(name, filename_filter) or (filename_filter in name)
+
+        tiles_dir = data_dir / 'tiles'
+        tiles_dir.mkdir(parents=True, exist_ok=True)
+
+        for f in files:
+            fname = f.get('key') or f.get('filename') or ''
+            link = f.get('links', {}).get('self') or f.get('links', {}).get('download')
+            if not fname or not link:
+                continue
+            if not match(fname):
+                continue
+            out_path = data_dir / fname
+            if out_path.exists():
+                print(f"ℹ️ Skipping existing {out_path.name}")
+                downloaded.append(out_path)
+            else:
+                if download_file_with_progress(link, out_path, description=f"Zenodo:{fname}"):
+                    downloaded.append(out_path)
+
+            if extract and out_path.suffix.lower() == '.zip':
+                try:
+                    with zipfile.ZipFile(out_path, 'r') as zf:
+                        zf.extractall(tiles_dir)
+                    print(f"📦 Extracted {out_path.name} -> {tiles_dir}")
+                except Exception as ee:
+                    print(f"⚠️ Failed to extract {out_path}: {ee}")
+        return downloaded
+    except Exception as e:
+        print(f"❌ Zenodo download failed for record {record_id}: {e}")
+        return downloaded
+
+def ensure_tiles_from_env_or_zenodo(data_dir: Path) -> List[Path]:
+    """Fetch tiles archives based on environment variables or defaults.
+
+    Supported environment variables:
+      - TILES_ZIP_URL: direct URL to a .zip (download to DATA_DIR and extract to DATA_DIR/tiles)
+      - ZENODO_RECORD: numeric record id to pull from zenodo.org
+      - ZENODO_FILTER: optional filename glob/substring filter (e.g., "*tiles*.zip")
+    Returns a list of relevant paths (downloaded archives or extracted folder).
+    """
+    results: List[Path] = []
+    # Direct URL
+    tiles_url = os.environ.get('TILES_ZIP_URL', '').strip()
+    if tiles_url:
+        dst = data_dir / Path(tiles_url).name
+        if not dst.exists():
+            if download_file_with_progress(tiles_url, dst, description=f"Tiles:{dst.name}"):
+                results.append(dst)
+        else:
+            print(f"ℹ️ Tiles archive already present: {dst}")
+            results.append(dst)
+        # Extract
+        try:
+            import zipfile
+            tiles_dir = data_dir / 'tiles'
+            tiles_dir.mkdir(parents=True, exist_ok=True)
+            with zipfile.ZipFile(dst, 'r') as zf:
+                zf.extractall(tiles_dir)
+            print(f"📦 Extracted {dst.name} -> {tiles_dir}")
+            results.append(tiles_dir)
+        except Exception as e:
+            print(f"⚠️ Could not extract tiles archive {dst}: {e}")
+
+    # Zenodo
+    zenodo_record = os.environ.get('ZENODO_RECORD', '').strip()
+    if zenodo_record:
+        zenodo_filter = os.environ.get('ZENODO_FILTER', '').strip() or None
+        results.extend(download_zenodo_record(zenodo_record, data_dir, filename_filter=zenodo_filter, extract=True))
+
+    if not results:
+        print("ℹ️ No tile sources configured (set TILES_ZIP_URL or ZENODO_RECORD). Using synthetic samples if needed.")
+    return results
 def _save_image(path: Path, array) -> bool:
     try:
         from PIL import Image
@@ -265,6 +408,27 @@ def get_wsi_path(data_dir: Path, env_var: str = 'WSI_PATH') -> Path:
         return candidate
     # Placeholder: user can upload or mount a file to this location
     print(f"⚠️ No WSI found. Expected at '{candidate}'. Upload or set {env_var}.")
+    return candidate
+
+def ensure_demo_wsi(data_dir: Path) -> Path:
+    """Ensure a small demo WSI is available under data_dir.
+
+    Priority:
+      - If WSI_PATH env points to an existing file, return it.
+      - If DATA_DIR/CMU-1-Small-Region.svs exists, return it.
+      - Else, download from WSI_URL env, or fallback to OpenSlide demo URL.
+    """
+    env = os.environ.get('WSI_PATH')
+    if env and Path(env).exists():
+        return Path(env)
+    candidate = data_dir / 'CMU-1-Small-Region.svs'
+    if candidate.exists():
+        return candidate
+    url = os.environ.get('WSI_URL', '').strip() or \
+          'https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1-Small-Region.svs'
+    if download_file_with_progress(url, candidate, description='WSI:CMU-1-Small-Region.svs'):
+        return candidate
+    print(f"⚠️ Could not retrieve demo WSI from {url}. Please set WSI_PATH or place a file at {candidate}")
     return candidate
 
 def validate_environment() -> bool:
