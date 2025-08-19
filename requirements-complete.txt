@@ -1,0 +1,56 @@
+# Core Scientific Stack
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+scikit-image>=0.21.0
+
+# Image Processing and Computer Vision
+Pillow>=10.0.0
+opencv-python>=4.8.0
+openslide-python>=1.2.0
+imageio>=2.31.0
+tifffile>=2023.7.0
+
+# Deep Learning Frameworks
+torch>=2.0.0
+torchvision>=0.15.0
+timm>=0.9.0
+transformers>=4.30.0
+
+# Visualization Libraries
+plotly>=5.15.0
+bokeh>=3.2.0
+ipywidgets>=8.0.0
+tqdm>=4.65.0
+
+# Machine Learning Extensions
+umap-learn>=0.5.0
+hdbscan>=0.8.29
+optuna>=3.2.0
+
+# Data Processing
+requests>=2.31.0
+h5py>=3.9.0
+zarr>=2.16.0
+
+# Jupyter Environment
+jupyterlab>=4.0.0
+ipykernel>=6.25.0
+notebook>=7.0.0
+
+# Computational Pathology Specific
+staintools>=2.1.2
+histomicstk>=1.3.0
+
+# Additional Utilities
+click>=8.1.0
+pyyaml>=6.0
+joblib>=1.3.0
+
+# Development and Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.7.0
+flake8>=6.0.0
