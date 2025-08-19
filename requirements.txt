@@ -1,13 +1,23 @@
-numpy==1.24.3
-pandas==2.0.3
-matplotlib==3.7.1
-seaborn==0.12.2
-scikit-learn==1.3.0
-opencv-python==4.8.0.74
-Pillow==10.0.0
-tqdm==4.65.0
-requests==2.31.0
-jupyterlab==4.0.5
-ipywidgets==8.0.7
-plotly==5.15.0
-openslide-python
+# Core Scientific Stack
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+scikit-image>=0.21.0
+
+# Image Processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Visualization
+plotly>=5.15.0
+ipywidgets>=8.0.0
+tqdm>=4.65.0
+
+# Jupyter Environment
+jupyterlab>=4.0.0
+ipykernel>=6.25.0
+
+# Basic Utilities
+requests>=2.31.0
