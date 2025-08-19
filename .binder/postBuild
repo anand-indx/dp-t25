@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -euxo pipefail
-
-# Ensure JupyterLab is enabled and default
-jupyter labextension list || true
-
-# Pre-create a notebooks directory shortcut (optional)
-mkdir -p notebooks
